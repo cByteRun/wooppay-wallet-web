@@ -1,9 +1,12 @@
 'use client'
+import { useTranslation } from '@/shared/lib/i18n/provider'
 
 import { useEffect, useRef, useState } from 'react'
 import { ArrowUpRight, Pause, Play } from 'lucide-react'
 
 export function PaymentMatrix() {
+  const t = useTranslation()
+
   const canvasRef = useRef<HTMLCanvasElement>(null)
   const [paused, setPaused] = useState(false)
   useEffect(() => {
@@ -86,23 +89,23 @@ export function PaymentMatrix() {
   return <section className="wf-payment-matrix wf-network" aria-labelledby="wf-network-title">
     <canvas ref={canvasRef} aria-hidden="true"/>
     <div className="wf-wrap wf-network-content">
-      <div className="wf-network-top"><span className="wf-network-label"><span className="wf-status"/> WOOPPAY / E-WALLET</span><span className="wf-network-label">СОЗДАНО В КАЗАХСТАНЕ ↗</span></div>
+      <div className="wf-network-top"><span className="wf-network-label"><span className="wf-status"/> {t("WOOPPAY / ЭЛЕКТРОННЫЙ КОШЕЛЁК")}</span><span className="wf-network-label">{t("СОЗДАНО В КАЗАХСТАНЕ ↗")}</span></div>
       <div className="wf-network-grid">
         <div className="wf-network-copy">
-          <p className="wf-network-label">ОТ ЧЕЛОВЕКА К ЧЕЛОВЕКУ</p>
-          <h2 id="wf-network-title">Твой мир.<br/>Твои люди.<br/><span>Твой Wooppay.</span></h2>
-          <p className="wf-network-description">Делиться. Обмениваться. Быть ближе.<br/>Электронный кошелёк, который связывает твои повседневные платежи и игровой мир.</p>
-          <a className="wf-button" href="#flows">Выбрать свой сценарий <ArrowUpRight size={20}/></a>
+          <p className="wf-network-label">{t("ОТ ЧЕЛОВЕКА К ЧЕЛОВЕКУ")}</p>
+          <h2 id="wf-network-title">{t("Твой мир.")}<br/>{t("Твои люди.")}<br/><span>{t("Твой Wooppay.")}</span></h2>
+          <p className="wf-network-description">{t("Делиться. Обмениваться. Быть ближе.")}<br/>{t("Электронный кошелёк, который связывает твои повседневные платежи и игровой мир.")}</p>
+          <a className="wf-button" href="#flows">{t("Выбрать свой сценарий")} <ArrowUpRight size={20}/></a>
         </div>
-        <div className="wf-network-visual" aria-label="P2P: от тебя через Wooppay к другим людям">
-          <div className="wf-network-signal wf-network-signal-coffee"><span className="wf-network-signal-caption">МАЛЕНЬКИЙ ПОВОД</span><p>За кофе <span>— тебе.</span></p><span className="wf-network-signal-trail" aria-hidden="true"/></div>
-          <div className="wf-network-core"><span>PEER TO PEER</span><strong>P<span>2</span>P</strong><span>ЛЮДИ В ЦЕНТРЕ</span></div>
-          <div className="wf-network-signal wf-network-signal-evening"><span className="wf-network-signal-trail" aria-hidden="true"/><span className="wf-network-signal-caption">ОБЩИЕ ПЛАНЫ</span><p>На вечер <span>— вместе.</span></p></div>
-          <div className="wf-network-connection"><span aria-hidden="true">··· ↗</span><p>Между нами<br/><em>больше, чем переводы.</em></p></div>
+        <div className="wf-network-visual" aria-label={t("P2P: от тебя через Wooppay к другим людям")}>
+          <div className="wf-network-signal wf-network-signal-coffee"><span className="wf-network-signal-caption">{t("МАЛЕНЬКИЙ ПОВОД")}</span><p>{t("За кофе")} <span>{t("— тебе.")}</span></p><span className="wf-network-signal-trail" aria-hidden="true"/></div>
+          <div className="wf-network-core"><span>{t("P2P-ПЕРЕВОДЫ")}</span><strong>P<span>2</span>P</strong><span>{t("ЛЮДИ В ЦЕНТРЕ")}</span></div>
+          <div className="wf-network-signal wf-network-signal-evening"><span className="wf-network-signal-trail" aria-hidden="true"/><span className="wf-network-signal-caption">{t("ОБЩИЕ ПЛАНЫ")}</span><p>{t("На вечер")} <span>{t("— вместе.")}</span></p></div>
+          <div className="wf-network-connection"><span aria-hidden="true">··· ↗</span><p>{t("Между нами")}<br/><em>{t("больше, чем переводы.")}</em></p></div>
         </div>
       </div>
-      <div className="wf-network-bottom"><p>Из Казахстана.<br/><strong>С первым шагом в будущее.</strong></p><p>Wooppay — первая зарегистрированная<br/>платёжная организация Казахстана.</p><a href="#skinmarket">P2P-маркет скинов CS2 <ArrowUpRight size={18}/></a></div>
+      <div className="wf-network-bottom"><p>{t("Из Казахстана.")}<br/><strong>{t("С первым шагом в будущее.")}</strong></p><p>{t("Wooppay — первая зарегистрированная")}<br/>{t("платёжная организация Казахстана.")}</p><a href="#skinmarket">{t("P2P-маркет скинов CS2")} <ArrowUpRight size={18}/></a></div>
     </div>
-    <button type="button" className="wf-payment-pause" aria-label={paused ? 'Включить фоновую анимацию' : 'Остановить фоновую анимацию'} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={15}/> : <Pause size={15}/>}</button>
+    <button type="button" className="wf-payment-pause" aria-label={t(paused ? 'Включить фоновую анимацию' : 'Остановить фоновую анимацию')} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={15}/> : <Pause size={15}/>}</button>
   </section>
 }

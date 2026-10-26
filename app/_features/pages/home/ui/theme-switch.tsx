@@ -1,4 +1,5 @@
 'use client'
+import { useTranslation } from '@/shared/lib/i18n/provider'
 
 import { useSyncExternalStore } from 'react'
 import { Moon, Sun } from 'lucide-react'
@@ -10,13 +11,15 @@ function subscribe(callback: () => void) {
 }
 
 export function ThemeSwitch() {
+  const t = useTranslation()
+
   const theme = useSyncExternalStore(subscribe, () => document.documentElement.dataset.walletTheme || 'light', () => 'light')
   function select(theme: 'light' | 'dark') {
     document.documentElement.dataset.walletTheme = theme
     try { localStorage.setItem('wooppay-theme', theme) } catch { /* Theme still works without storage. */ }
   }
-  return <div className="wf-theme-switch" role="group" aria-label="Цветовая тема">
-    <button type="button" className="wf-theme-light" aria-pressed={theme === 'light'} aria-label="Светлая тема" onClick={() => select('light')}><Sun size={16}/><span>Светлая</span></button>
-    <button type="button" className="wf-theme-dark" aria-pressed={theme === 'dark'} aria-label="Тёмная тема" onClick={() => select('dark')}><Moon size={16}/><span>Тёмная</span></button>
+  return <div className="wf-theme-switch" role="group" aria-label={t("Цветовая тема")}>
+    <button type="button" className="wf-theme-light" aria-pressed={theme === 'light'} aria-label={t("Светлая тема")} onClick={() => select('light')}><Sun size={16}/><span>{t("Светлая")}</span></button>
+    <button type="button" className="wf-theme-dark" aria-pressed={theme === 'dark'} aria-label={t("Тёмная тема")} onClick={() => select('dark')}><Moon size={16}/><span>{t("Тёмная")}</span></button>
   </div>
 }

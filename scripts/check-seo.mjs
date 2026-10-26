@@ -8,10 +8,18 @@ import { detectPlatform } from '../app/_features/features/app-download/model/pla
 const routes = ['', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq', 'faq/download', 'faq/tariffs', 'faq/support', 'faq/limits', 'documents']
 const origin = (process.env.SITE_URL || 'https://wooppay.com').replace(/\/$/, '')
 const index = process.env.SITE_INDEXING_ENABLED === 'true'
+// Cookie-based language selection renders pages per request. Point this at a running build.
+const baseUrl = process.env.CHECK_BASE_URL
+async function pageHtml(route) {
+  if (!baseUrl) return readFile(`.next/server/app/${route || 'index'}.html`, 'utf8')
+  const response = await fetch(new URL(`/${route}`, baseUrl), { headers: { Cookie: 'wooppay-locale=ru' } })
+  assert.equal(response.status, 200, `${route}: response status`)
+  return response.text()
+}
 const titles = new Set()
 const descriptions = new Set()
 for (const route of routes) {
-  const html = await readFile(`.next/server/app/${route || 'index'}.html`, 'utf8')
+  const html = await pageHtml(route)
   const visibleHtml = html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/g, '')
   assert.equal((visibleHtml.match(/<h1\b/g) || []).length, 1, `${route}: one H1`)
   const title = html.match(/<title>(.*?)<\/title>/)?.[1]
@@ -31,7 +39,7 @@ for (const route of routes) {
     assert.equal(schema['@context'], 'https://schema.org')
   }
   assert.ok(schemaCount > 0, `${route}: server-rendered JSON-LD`)
-  assert.ok(visibleHtml.includes('href="/documents"'), route + ': legal hub reachable');
+  assert.ok(visibleHtml.includes('href="/documents"') || visibleHtml.includes('href="/#info-documents"'), route + ': legal hub reachable');
   assert.ok(visibleHtml.includes('href="mailto:spp@wooppay.com"'), route + ': direct support available');
   if (['payments', 'transfers', 'skinmarket', 'tariffs', 'documents'].includes(route) || route.startsWith('faq/')) {
     assert.ok(visibleHtml.includes('href="https://www.wooppay.com/site/commissions"'), route + ': official fees');
@@ -76,6 +84,6 @@ if (index) {
 const robots = await readFile('.next/server/app/robots.txt.body', 'utf8')
 assert.ok(robots.includes('Allow: /'))
 assert.equal(robots.includes('Sitemap:'), index)
-const og = await readFile('.next/server/app/opengraph-image.body')
+const og = baseUrl ? Buffer.from(await (await fetch(new URL('/opengraph-image', baseUrl))).arrayBuffer()) : await readFile('.next/server/app/opengraph-image.body')
 assert.equal(og.subarray(1, 4).toString(), 'PNG')
 console.log(`SEO check passed: ${routes.length} pages, metadata, HTML links, schema, sitemap, robots, OG PNG, platform detection, 4 independently decoded QR images. Indexing: ${index}.`)

@@ -1,1 +1,1 @@
-export { default, metadata } from '@/pages/documents/ui/page'
+export { default, generateMetadata } from '@/pages/documents/ui/page'

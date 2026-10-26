@@ -1,1 +1,1 @@
-export { default, metadata } from '@/pages/skinmarket/ui/page'
+export { default, generateMetadata } from '@/pages/skinmarket/ui/page'

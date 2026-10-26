@@ -1,4 +1,5 @@
 'use client'
+import { useTranslation } from '@/shared/lib/i18n/provider'
 
 import { useEffect, useRef } from 'react'
 import { ArrowUpRight, X } from 'lucide-react'
@@ -31,6 +32,8 @@ const sections = {
 
 // Render every section on the server so the product information is present in HTML.
 export function WalletDialogs() {
+  const t = useTranslation()
+
   const container = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -97,14 +100,14 @@ export function WalletDialogs() {
       if (event.clientX < rect.left || event.clientX > rect.right || event.clientY < rect.top || event.clientY > rect.bottom) event.currentTarget.close()
     }}
   >
-    <form method="dialog" className="wf-info-close"><button autoFocus aria-label="Закрыть"><X size={22}/></button></form>
-    <h2 id={`info-${key}-title`}>{item.title}</h2>
-    <p>{item.answer}</p>
-    <ul>{item.steps.map(step => <li key={step}>{step}</li>)}</ul>
+    <form method="dialog" className="wf-info-close"><button autoFocus aria-label={t("Закрыть")}><X size={22}/></button></form>
+    <h2 id={`info-${key}-title`}>{t(item.title)}</h2>
+    <p>{t(item.answer)}</p>
+    <ul>{item.steps.map(step => <li key={step}>{t(step)}</li>)}</ul>
     <div className="wf-info-links">
-      {key === 'documents' || key === 'tariffs' ? <><a href={OFFICIAL.documents} target="_blank" rel="noreferrer">Документы Wooppay <ArrowUpRight size={16}/></a><a href={OFFICIAL.commissions} target="_blank" rel="noreferrer">Действующие комиссии <ArrowUpRight size={16}/></a></> : null}
-      {key === 'faq' || key === 'security' ? <><a href={OFFICIAL.supportEmail}>Написать в поддержку <ArrowUpRight size={16}/></a><a href={OFFICIAL.telegram} target="_blank" rel="noreferrer">Поддержка в Telegram <ArrowUpRight size={16}/></a></> : null}
+      {key === 'documents' || key === 'tariffs' ? <><a href={OFFICIAL.documents} target="_blank" rel="noreferrer">{t("Документы Wooppay")} <ArrowUpRight size={16}/></a><a href={OFFICIAL.commissions} target="_blank" rel="noreferrer">{t("Действующие комиссии")} <ArrowUpRight size={16}/></a></> : null}
+      {key === 'faq' || key === 'security' ? <><a href={OFFICIAL.supportEmail}>{t("Написать в поддержку")} <ArrowUpRight size={16}/></a><a href={OFFICIAL.telegram} target="_blank" rel="noreferrer">{t("Поддержка в Telegram")} <ArrowUpRight size={16}/></a></> : null}
     </div>
-    <a className="wf-button" href="#download" onClick={event => event.currentTarget.closest('dialog')?.close()}>Скачать Wooppay <ArrowUpRight size={18}/></a>
+    <a className="wf-button" href="#download" onClick={event => event.currentTarget.closest('dialog')?.close()}>{t("Скачать Wooppay")} <ArrowUpRight size={18}/></a>
   </dialog>)}</div>
 }

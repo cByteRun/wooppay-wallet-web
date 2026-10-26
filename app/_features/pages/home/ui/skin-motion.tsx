@@ -1,4 +1,5 @@
 'use client'
+import { useTranslation } from '@/shared/lib/i18n/provider'
 
 import { useEffect, useRef, useState } from 'react'
 import { Pause, Play, ArrowRight } from 'lucide-react'
@@ -9,6 +10,8 @@ type JourneyStep = { title: string; text: string; image: ComponentProps<typeof A
 
 // Foreground commission display; the page background is a separate SVG composition.
 export function MatrixScene() {
+  const t = useTranslation()
+
   const canvas = useRef<HTMLCanvasElement>(null)
   const [paused, setPaused] = useState(false)
   const elapsedRef = useRef(0)
@@ -82,7 +85,7 @@ export function MatrixScene() {
     frame = requestAnimationFrame(draw)
     return () => { cancelAnimationFrame(frame); resize.disconnect(); observer.disconnect() }
   }, [paused])
-  return <><canvas ref={canvas} className="sk-matrix" aria-hidden="true"/><button className="sk-motion-toggle" onClick={() => window.dispatchEvent(new CustomEvent('skin-motion-toggle', { detail: !paused }))} aria-pressed={paused} aria-label={paused ? 'Продолжить анимацию' : 'Приостановить анимацию'}>{paused ? <Play size={14}/> : <Pause size={14}/>}</button></>
+  return <><canvas ref={canvas} className="sk-matrix" aria-hidden="true"/><button className="sk-motion-toggle" onClick={() => window.dispatchEvent(new CustomEvent('skin-motion-toggle', { detail: !paused }))} aria-pressed={paused} aria-label={t(paused ? 'Продолжить анимацию' : 'Приостановить анимацию')}>{paused ? <Play size={14}/> : <Pause size={14}/>}</button></>
 }
 
 const journeys: Record<string, JourneyStep[]> = {
@@ -109,31 +112,33 @@ const journeys: Record<string, JourneyStep[]> = {
   ],
 }
 export function TradeJourney() {
+  const t = useTranslation()
+
   const [journey, setJourney] = useState<keyof typeof journeys>('Первый трейд')
   const [active, setActive] = useState(0)
   const steps = journeys[journey]
   const step = steps[active]
   const selectJourney = (name: string) => { setJourney(name); setActive(0) }
   return <>
-    <div className="sk-journey-tabs" role="tablist" aria-label="Сценарии использования Wooppay">{Object.keys(journeys).map(name => <button key={name} id={`journey-tab-${name}`} role="tab" aria-selected={journey === name} aria-controls="journey-panel" tabIndex={journey === name ? 0 : -1} onKeyDown={event => {
+    <div className="sk-journey-tabs" role="tablist" aria-label={t("Сценарии использования Wooppay")}>{Object.keys(journeys).map(name => <button key={name} id={`journey-tab-${name}`} role="tab" aria-selected={journey === name} aria-controls="journey-panel" tabIndex={journey === name ? 0 : -1} onKeyDown={event => {
       const names = Object.keys(journeys), index = names.indexOf(name)
       const next = event.key === 'ArrowRight' ? (index + 1) % names.length : event.key === 'ArrowLeft' ? (index + names.length - 1) % names.length : event.key === 'Home' ? 0 : event.key === 'End' ? names.length - 1 : -1
       if (next >= 0) { event.preventDefault(); selectJourney(names[next]); document.getElementById(`journey-tab-${names[next]}`)?.focus() }
-    }} onClick={() => selectJourney(name)}>{name}</button>)}</div>
+    }} onClick={() => selectJourney(name)}>{t(name)}</button>)}</div>
     <div id="journey-panel" role="tabpanel" aria-labelledby={`journey-tab-${journey}`} className="sk-matrix-console">
       <div className="sk-console-display">
-        <div className="sk-console-head"><span>WOOPPAY / TOUCH TO EXPLORE</span><span>0{active + 1} / 0{steps.length}</span></div>
-        <button className="sk-touch-screen" onClick={() => setActive(value => (value + 1) % steps.length)} aria-label={active === steps.length - 1 ? 'Посмотреть сценарий сначала' : `Следующий шаг: ${steps[active + 1].title}`}>
+        <div className="sk-console-head"><span>{t("WOOPPAY / НАЖМИ И ИССЛЕДУЙ")}</span><span>0{active + 1} / 0{steps.length}</span></div>
+        <button className="sk-touch-screen" onClick={() => setActive(value => (value + 1) % steps.length)} aria-label={t(active === steps.length - 1 ? 'Посмотреть сценарий сначала' : `Следующий шаг: ${steps[active + 1].title}`)}>
           <span className="sk-screen-frame"><span className={`sk-screen-crop sk-crop-${step.image}`} key={`${journey}-${active}`}><AppScreen screen={step.image}/></span></span>
-          <span className="sk-touch-hint">{active === steps.length - 1 ? '↺ НАЖМИ, ЧТОБЫ ПОВТОРИТЬ' : '+ НАЖМИ НА ЭКРАН — СЛЕДУЮЩИЙ ШАГ'}</span>
+          <span className="sk-touch-hint">{t(active === steps.length - 1 ? '↺ НАЖМИ, ЧТОБЫ ПОВТОРИТЬ' : '+ НАЖМИ НА ЭКРАН — СЛЕДУЮЩИЙ ШАГ')}</span>
         </button>
         <div className="sk-dot-progress" aria-hidden="true">{steps.map((_, index) => <span key={index} className={index <= active ? 'is-lit' : ''}>{Array.from({ length: 15 }, (_, dot) => <i key={dot}/>)}</span>)}</div>
       </div>
       <div className="sk-console-copy">
-        <p className="sk-eyebrow">{journey === 'Первый трейд' ? 'ТВОЙ ТРЕЙД. ЧЕТЫРЕ ДЕЙСТВИЯ.' : journey.toUpperCase()}</p>
-        <div className="sk-console-readout" aria-live="polite" aria-atomic="true"><span className="sk-console-index">0{active + 1}</span><h3>{step.title}</h3><p>{step.text}</p></div>
-        <div className="sk-console-keys" role="group" aria-label="Шаги сценария">{steps.map((item, index) => <button key={item.title} aria-pressed={index === active} onClick={() => setActive(index)}><span>0{index + 1}</span><span>{item.title}</span><ArrowRight size={18}/></button>)}</div>
-        <p className="sk-console-note">Интерфейс Wooppay · нажимай на экран или выбери шаг</p>
+        <p className="sk-eyebrow">{t(journey === 'Первый трейд' ? 'ТВОЙ ТРЕЙД. ЧЕТЫРЕ ДЕЙСТВИЯ.' : journey.toUpperCase())}</p>
+        <div className="sk-console-readout" aria-live="polite" aria-atomic="true"><span className="sk-console-index">0{active + 1}</span><h3>{t(step.title)}</h3><p>{t(step.text)}</p></div>
+        <div className="sk-console-keys" role="group" aria-label={t("Шаги сценария")}>{steps.map((item, index) => <button key={item.title} aria-pressed={index === active} onClick={() => setActive(index)}><span>0{index + 1}</span><span>{t(item.title)}</span><ArrowRight size={18}/></button>)}</div>
+        <p className="sk-console-note">{t("Интерфейс Wooppay · нажимай на экран или выбери шаг")}</p>
       </div>
     </div>
   </>

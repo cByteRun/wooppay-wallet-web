@@ -1,3 +1,5 @@
+'use client'
+import { useTranslation } from '@/shared/lib/i18n/provider'
 import Image from 'next/image'
 import intro from '../../../../../public/skinmarket/originals/intro.png'
 import market from '../../../../../public/skinmarket/originals/market.png'
@@ -36,10 +38,14 @@ const screens = {
 }
 
 export function LoreKnife({ className = '' }: { className?: string }) {
-  return <Image className={className} src={lore} alt="Нож-бабочка — Легенды" unoptimized/>
+  const t = useTranslation()
+
+  return <Image className={className} src={lore} alt={t("Нож-бабочка — Легенды")} unoptimized/>
 }
 
 export function AppScreen({ screen, className = '' }: { screen: keyof typeof screens; className?: string }) {
+  const t = useTranslation()
+
   const { src, alt } = screens[screen]
-  return <Image className={className} src={src} alt={alt} unoptimized/>
+  return <Image className={className} src={src} alt={t(alt)} unoptimized/>
 }

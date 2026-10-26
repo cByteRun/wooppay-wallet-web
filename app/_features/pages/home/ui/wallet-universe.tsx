@@ -1,4 +1,5 @@
 'use client'
+import { useTranslation } from '@/shared/lib/i18n/provider'
 
 import { useEffect, useRef, useState } from 'react'
 import { Pause, Play } from 'lucide-react'
@@ -11,6 +12,8 @@ const wp = 'M -102 -35 L -75 46 L -39 -6 L -13 46 L 11 -26 C 30 -90 118 -68 111 
 const labels = ['WALLET / ВСЁ НАЧИНАЕТСЯ ЗДЕСЬ', 'KARAMBIT / ТВОЙ СТИЛЬ В ИГРЕ', 'AWP / ТВОЙ СЛЕДУЮЩИЙ ХОД']
 
 export function WalletUniverse() {
+  const t = useTranslation()
+
   const ref = useRef<HTMLCanvasElement>(null)
   const [paused, setPaused] = useState(false)
   const [scene, setScene] = useState(0)
@@ -97,5 +100,5 @@ export function WalletUniverse() {
     scroll(); frame = requestAnimationFrame(loop)
     return () => { cancelAnimationFrame(frame); resize.disconnect(); visibility.disconnect(); window.removeEventListener('scroll', scroll); canvas.removeEventListener('pointermove', pointer); reduced.removeEventListener('change', motionChange) }
   }, [paused])
-  return <div className="wp-particle-stage"><div className="wp-stage-top"><span>WOOPPAY OBJECTS</span><span>0{scene + 1} / 03</span></div><div className="wp-stage-glow"/><canvas ref={ref} aria-hidden="true"/><div className="wp-object-name">{labels[scene]}</div><div className="wp-stage-bottom"><span>СКРОЛЛЬ, ЧТОБЫ ИССЛЕДОВАТЬ ↓</span><button onClick={() => setPaused(value => !value)} aria-pressed={paused} aria-label={paused ? 'Включить анимацию' : 'Приостановить анимацию'}>{paused ? <Play size={15}/> : <Pause size={15}/>}</button></div><noscript><svg viewBox="-260 -250 520 500" aria-hidden="true"><path d={wallet} fill="none" stroke="#b8a1ff" strokeWidth="3" strokeDasharray="1 6"/><path d={wp} fill="none" stroke="#d8ff75" strokeWidth="9"/></svg></noscript></div>
+  return <div className="wp-particle-stage"><div className="wp-stage-top"><span>{t("ОБЪЕКТЫ WOOPPAY")}</span><span>0{scene + 1} / 03</span></div><div className="wp-stage-glow"/><canvas ref={ref} aria-hidden="true"/><div className="wp-object-name">{t(labels[scene])}</div><div className="wp-stage-bottom"><span>{t("СКРОЛЛЬ, ЧТОБЫ ИССЛЕДОВАТЬ ↓")}</span><button onClick={() => setPaused(value => !value)} aria-pressed={paused} aria-label={t(paused ? 'Включить анимацию' : 'Приостановить анимацию')}>{paused ? <Play size={15}/> : <Pause size={15}/>}</button></div><noscript><svg viewBox="-260 -250 520 500" aria-hidden="true"><path d={wallet} fill="none" stroke="#b8a1ff" strokeWidth="3" strokeDasharray="1 6"/><path d={wp} fill="none" stroke="#d8ff75" strokeWidth="9"/></svg></noscript></div>
 }
