@@ -1,3 +1,29 @@
+# SkinMarket landing rebuild — 26 October 2026
+
+The homepage now leads with SkinMarket and the supplied positioning: «Первая официальная P2P-платформа скинов в Казахстане. Без комиссии продавца.» The exclusivity wording comes from the client brief; the supplied mobile onboarding and Play Store artwork show the zero-commission offer. No competitor statistics, reviews, transaction totals, or fabricated savings counters are used.
+
+The page follows one sequence: offer → three illustrated benefits → three transaction steps → one e-wallet presentation → FAQ → store downloads and Telegram. The old three-chapter particle universe and separate security/partner panels are no longer mounted on the homepage. Existing service pages remain linked from the wallet section and site footer.
+
+## Visual implementation
+
+- New isolated stylesheet: `skin-rebuild.css`. Charcoal/olive background, lime for the seller benefit and lavender for Wooppay money/services.
+- Two canvas rhythms: a slow topographic background field and a foreground dot matrix morphing 0% → ₸ → the existing Wooppay monogram, with transaction orbits around the real market screenshot. Uses native Canvas; no external animation assets or dependencies.
+- Each canvas observes its container size and viewport visibility, caps pixel ratio, freezes when the tab is hidden, and respects reduced-motion preferences. One pause control freezes both canvas animations and the phone motion. CSS phone motion also respects reduced motion.
+- Real marketplace/payment/trade WebPs come from the supplied mobile materials. Desktop transaction steps change the sticky phone display on scroll and support explicit step selection. Mobile renders the relevant screen next to each step.
+- The one wallet presentation uses a locally optimized version of the supplied Google Play artwork (`google_play/unnamed.webp`).
+- Official store URLs and locally generated store-specific QR codes are reused. Mobile shows store buttons; desktop also shows both QR codes. Community links use the requested `https://t.me/skinmarket_official`.
+- Metadata, WebPage structured data and Open Graph now lead with SkinMarket and the 0% seller fee.
+
+Settlement copy retains the waiting period shown in the supplied app rather than promising instant payout. The fee qualifier distinguishes the seller fee from funding/withdrawal terms. Example amounts are marked as examples.
+
+## Validation
+
+TypeScript and ESLint pass. Browser checks at 1440 px and 390 px pass: no horizontal overflow, no JavaScript errors, working pause, FAQ and scroll-step selection, mobile step screenshots, mobile QR hiding, and reduced-motion support. Production build succeeds with `npx next build --webpack` (20 generated pages); Turbopack encountered an environment process/port restriction.
+
+---
+
+## Previous implementation notes (archive)
+
 # Wooppay Wallet — новая ось продукта
 
 ## Тезисы в одном предложении
