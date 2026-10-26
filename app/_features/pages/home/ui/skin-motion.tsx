@@ -60,7 +60,7 @@ export function MatrixScene({ background = false }: { background?: boolean }) {
         for (let x = 0; x < width; x += spacing) for (let y = 0; y < height; y += spacing) {
           const wave = Math.sin(x * .007 + y * .009 - t * .18)
           const ribbon = Math.pow((wave + 1) / 2, 8)
-          ctx.fillStyle = `rgba(165,190,149,${.025 + ribbon * .13})`
+          ctx.fillStyle = `rgba(0,225,231,${.025 + ribbon * .13})`
           ctx.beginPath(); ctx.arc(x, y + Math.sin(x * .008 + t * .15) * 10, .8 + ribbon * 1.1, 0, Math.PI * 2); ctx.fill()
         }
       } else {
@@ -74,7 +74,7 @@ export function MatrixScene({ background = false }: { background?: boolean }) {
           const x = (p.x + (q.x - p.x) * blend) * scale
           const y = (p.y + (q.y - p.y) * blend) * scale * .5
           const shimmer = .6 + .4 * Math.sin(i * .32 + t * 2)
-          ctx.fillStyle = i % 13 === 0 ? `rgba(189,167,255,${shimmer})` : `rgba(204,255,119,${shimmer})`
+          ctx.fillStyle = i % 13 === 0 ? `rgba(139,104,255,${shimmer})` : `rgba(0,240,240,${shimmer})`
           ctx.beginPath(); ctx.arc(width / 2 + x + Math.sin(t + y * .009) * 5, height * .33 + y, 1.45, 0, Math.PI * 2); ctx.fill()
         }
         // Elliptical transaction paths visually carry the inventory into the wallet.
