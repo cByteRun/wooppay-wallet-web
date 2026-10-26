@@ -70,7 +70,7 @@ export function WalletDialogs() {
       const anchor = event.target instanceof Element ? event.target.closest('a') : null
       if (!anchor || anchor.target === '_blank') return
       const url = new URL(anchor.href)
-      if (url.origin !== location.origin || url.pathname !== '/' || !dialogs.some(dialog => `#${dialog.id}` === url.hash)) return
+      if (url.origin !== location.origin || !['/', '/en', '/en/'].includes(url.pathname) || !dialogs.some(dialog => `#${dialog.id}` === url.hash)) return
       event.preventDefault()
       if (location.hash !== url.hash) history.pushState(null, '', url.hash)
       openFromHash()

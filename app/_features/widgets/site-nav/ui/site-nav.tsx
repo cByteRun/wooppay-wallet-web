@@ -1,6 +1,6 @@
 import { LanguageSwitch } from '@/shared/lib/i18n/language-switch'
 import { getTranslator } from '@/shared/lib/i18n/server'
-import Link from "next/link"
+import Link from "@/shared/lib/i18n/link"
 import { ArrowUpRight } from "lucide-react"
 
 export async function SiteNav() {

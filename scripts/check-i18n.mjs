@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 
 const baseUrl = process.env.CHECK_BASE_URL || 'http://localhost:3100'
-const routes = ['/', '/features', '/payments', '/transfers', '/skinmarket', '/tariffs', '/security', '/documents', '/download', '/faq', '/faq/download', '/faq/tariffs', '/faq/limits', '/faq/support']
+const routes = ['/', '/partners', '/features', '/payments', '/transfers', '/skinmarket', '/tariffs', '/security', '/documents', '/download', '/faq', '/faq/download', '/faq/tariffs', '/faq/limits', '/faq/support']
 
 async function load(route, cookie) {
   const response = await fetch(new URL(route, baseUrl), { headers: cookie ? { Cookie: cookie } : {} })
@@ -15,9 +15,11 @@ assert.match(defaultHtml, /Всё твоё\./)
 assert.match(await load('/', 'wooppay-locale=unknown'), /<html[^>]*lang="ru-KZ"/, 'Invalid locales fall back to Russian')
 
 for (const route of routes) {
-  const [ru, en] = await Promise.all([load(route, 'wooppay-locale=ru'), load(route, 'wooppay-locale=en')])
+  const [ru, en] = await Promise.all([load(route, 'wooppay-locale=en'), load(`/en${route === '/' ? '' : route}`, 'wooppay-locale=ru')])
   assert.match(ru, /<html[^>]*lang="ru-KZ"/, `${route}: Russian document language`)
   assert.match(en, /<html[^>]*lang="en"/, `${route}: English document language`)
+  assert.match(en, /rel="alternate"[^>]*hrefLang="ru-KZ"/i, `${route}: Russian alternate`)
+  assert.match(en, /rel="canonical"[^>]*href="[^"]*\/en(?:[\/"])/, `${route}: English canonical`)
   assert.notEqual(ru.match(/<title>(.*?)<\/title>/s)?.[1], en.match(/<title>(.*?)<\/title>/s)?.[1], `${route}: translated title`)
   assert.match(en, /<meta[^>]*property="og:locale"[^>]*content="en_US"/, `${route}: English Open Graph locale`)
   const visibleHtml = en.replace(/<script\b[^>]*>[\s\S]*?<\/script>|<style\b[^>]*>[\s\S]*?<\/style>/gi, '')

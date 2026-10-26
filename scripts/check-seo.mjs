@@ -5,10 +5,10 @@ import jsQR from 'jsqr'
 import { detectPlatform } from '../app/_features/features/app-download/model/platform.ts'
 
 // Inspect actual build output, not React's hydration payload or source strings.
-const routes = ['', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq', 'faq/download', 'faq/tariffs', 'faq/support', 'faq/limits', 'documents']
+const routes = ['', 'partners', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq', 'faq/download', 'faq/tariffs', 'faq/support', 'faq/limits', 'documents']
 const origin = (process.env.SITE_URL || 'https://wooppay.com').replace(/\/$/, '')
 const index = process.env.SITE_INDEXING_ENABLED === 'true'
-// Cookie-based language selection renders pages per request. Point this at a running build.
+// URL-based language selection renders pages per request. Point this at a running build.
 const baseUrl = process.env.CHECK_BASE_URL
 async function pageHtml(route) {
   if (!baseUrl) return readFile(`.next/server/app/${route || 'index'}.html`, 'utf8')
@@ -54,7 +54,7 @@ for (const route of routes) {
   for (const match of visibleHtml.matchAll(/href="(\/[^"?#]*)"/g)) {
     const href = match[1]
     if (href.startsWith('/_next/') || href === '/opengraph-image') continue
-    assert.ok(routes.includes(href.slice(1)), `${route}: internal link ${href} must resolve`)
+    assert.ok(routes.includes(href.replace(/^\/en(?=\/|$)/, '').replace(/^\//, '')), `${route}: internal link ${href} must resolve`)
   }
   if (route === '' || route === 'download') {
     const expected = ['https://apps.apple.com/kz/app/wooppay-app/id913826829', 'https://play.google.com/store/apps/details?id=com.wooppay.wooppayapplication']
@@ -76,7 +76,7 @@ assert.equal(detectPlatform('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15)', 0),
 assert.equal(detectPlatform('Mozilla/5.0 (Linux; Android 14; Pixel 8)', 5), 'android')
 assert.equal(detectPlatform('Mozilla/5.0 (Windows NT 10.0; Win64; x64)', 0), 'other')
 const sitemap = await readFile('.next/server/app/sitemap.xml.body', 'utf8')
-assert.equal((sitemap.match(/<loc>/g) || []).length, index ? routes.length : 0)
+assert.equal((sitemap.match(/<loc>/g) || []).length, index ? routes.length * 2 : 0)
 if (index) {
   for (const route of routes) assert.ok(sitemap.includes(`<loc>${origin}${route ? `/${route}` : ''}</loc>`))
   assert.ok(sitemap.includes('2026-10-26'))

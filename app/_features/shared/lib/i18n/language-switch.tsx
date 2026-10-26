@@ -1,23 +1,14 @@
 'use client'
-
-import { useTransition } from 'react'
+import { usePathname } from 'next/navigation'
 import { useLocale, useTranslation } from './provider'
-import type { Locale } from './translate'
-import { setLocale } from './actions'
 
 export function LanguageSwitch() {
   const locale = useLocale()
   const t = useTranslation()
-  const [pending, startTransition] = useTransition()
-
-  function select(next: Locale) {
-    if (next === locale) return
-    startTransition(async () => { await setLocale(next) })
-  }
-
-  return <div className="language-switch" role="group" aria-label={t('Язык сайта')} aria-busy={pending}>
-    {(['ru', 'en'] as const).map(value => <button key={value} type="button" lang={value}
-      aria-label={value === 'ru' ? 'Русский' : 'English'} aria-pressed={locale === value}
-      disabled={pending} onClick={() => select(value)}>{value.toUpperCase()}</button>)}
+  const pathname = usePathname().replace(/^\/en(?=\/|$)/, '') || '/'
+  return <div role="group" className="language-switch" aria-label={t('Язык сайта')}>
+    {(['ru', 'en'] as const).map(value => <a key={value} lang={value} hrefLang={value}
+      href={value === 'en' ? `/en${pathname === '/' ? '' : pathname}` : pathname}
+      aria-label={value === 'ru' ? 'Русский' : 'English'} aria-current={locale === value ? 'page' : undefined}>{value.toUpperCase()}</a>)}
   </div>
 }

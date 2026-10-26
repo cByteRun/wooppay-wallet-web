@@ -1,5 +1,5 @@
 import { getTranslator } from '@/shared/lib/i18n/server'
-import Link from 'next/link'
+import Link from '@/shared/lib/i18n/link'
 import { SiteNav } from '@/widgets/site-nav/ui/site-nav'
 import { OfficialHelp } from '@/widgets/official-help/ui/official-help'
 import { OFFICIAL } from '@/shared/config/official-resources'

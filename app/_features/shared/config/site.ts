@@ -14,7 +14,8 @@ export const STORE_LINKS = {
 } as const
 export const CONTENT_REVIEWED_AT = '2026-10-26'
 export const SITE_PAGES = [
-  { path: '/', title: 'Wooppay Wallet — всё твоё в одном кошельке', description: 'Wooppay Wallet для платежей, международных пополнений, игр и SkinMarket CS2. Посмотрите возможности и пошаговые сценарии, скачайте приложение для iOS и Android.' },
+  { path: '/', title: 'Wooppay Wallet — электронный кошелёк в Казахстане и SkinMarket CS2', description: 'Wooppay Wallet для iOS и Android: платежи в Казахстане, пополнение зарубежных карт, SkinMarket CS2. Рейтинги магазинов, документы и информация для банков и партнёров.' },
+  { path: '/partners', title: 'Wooppay для банков и бизнес-партнёров', description: 'Платёжная экосистема Wooppay в Казахстане: кошелёк, Woopkassa и SkinMarket. Документы, сведения об операторе и контакты для сотрудничества.' },
   { path: '/download', title: 'Скачать Wooppay Wallet для iPhone и Android', description: 'Прямые ссылки на Wooppay в App Store и Google Play. На компьютере отсканируйте отдельный QR-код для iPhone или Android.' },
   { path: '/features', title: 'Возможности кошелька Wooppay', description: 'Возможности Wooppay: оплата услуг, пополнение зарубежных карт и электронных кошельков, SkinMarket CS2.' },
   { path: '/payments', title: 'Оплата услуг через Wooppay Wallet', description: 'Какие услуги можно оплачивать через Wooppay: мобильная связь, интернет, коммунальные и транспортные услуги.' },

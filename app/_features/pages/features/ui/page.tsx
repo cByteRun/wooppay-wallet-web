@@ -1,5 +1,5 @@
 import { getTranslator } from '@/shared/lib/i18n/server'
-import Link from 'next/link'
+import Link from '@/shared/lib/i18n/link'
 import { SiteNav } from '@/widgets/site-nav/ui/site-nav'
 import { pageMetadata } from '@/shared/lib/seo/metadata'
 export function generateMetadata() { return pageMetadata('/features') }
