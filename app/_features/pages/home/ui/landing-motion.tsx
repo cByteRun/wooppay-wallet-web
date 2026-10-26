@@ -2,81 +2,9 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Image from 'next/image'
-import { ArrowDown, ArrowRight, Check, Pause, Play } from 'lucide-react'
+import { ArrowDown, ArrowRight, Check } from 'lucide-react'
 
-const knife = 'M 500 32 C 456 66 451 115 438 145 C 418 192 363 234 300 253 L 270 225 L 246 242 L 261 265 L 213 302 L 197 292 L 172 311 L 184 330 L 139 363 L 154 389 L 228 347 L 243 358 L 263 341 L 250 326 L 296 289 C 388 286 473 223 490 152 C 501 105 495 71 500 32 Z M 163 355 A 22 22 0 1 0 163 399 A 22 22 0 1 0 163 355 Z'
-const mark = 'M 92 100 L 188 315 L 272 173 L 336 315 L 515 56 L 448 328 L 337 435 L 267 321 L 190 435 L 67 150 Z'
-
-export function DotScene() {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [paused, setPaused] = useState(false)
-  const elapsed = useRef(0)
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    const reduced = matchMedia('(prefers-reduced-motion: reduce)')
-    const scratch = document.createElement('canvas').getContext('2d')!
-    const paths = [new Path2D(knife), new Path2D(mark)]
-    const points = paths.map(path => {
-      const result: { x: number; y: number; z: number }[] = []
-      for (let y = 25; y < 440; y += 5.5) for (let x = 60; x < 520; x += 5.5) {
-        if (scratch.isPointInPath(path, x, y, 'evenodd')) result.push({ x: x - 290, y: y - 230, z: Math.sin(x * .1 + y * .2) * 12 })
-      }
-      return result
-    })
-    let width = 600, height = 600, frame = 0, visible = true, time = elapsed.current, last = 0
-    let pointerX = 0, pointerY = 0
-    const resize = new ResizeObserver(entries => {
-      const rect = entries[0].contentRect
-      width = rect.width; height = rect.height
-      const dpr = Math.min(devicePixelRatio || 1, 2)
-      canvas.width = width * dpr; canvas.height = height * dpr
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0)
-      draw()
-    })
-    const draw = () => {
-      ctx.clearRect(0, 0, width, height)
-      const scale = Math.min(width / 610, height / 500)
-      const phase = reduced.matches ? 0 : (time % 15000) / 15000
-      const blend = phase < .4 ? 0 : phase < .5 ? (phase - .4) * 10 : phase < .87 ? 1 : (1 - phase) / .13
-      const mix = blend * blend * (3 - 2 * blend)
-      const a = points[0], b = points[1]
-      const turn = reduced.matches ? .12 : Math.sin(time * .00035) * .25 + pointerX * .15
-      const count = Math.max(a.length, b.length)
-      for (let i = 0; i < count; i++) {
-        const p = a[i % a.length], q = b[i % b.length]
-        const x = p.x + (q.x - p.x) * mix, y = p.y + (q.y - p.y) * mix
-        const z = p.z + Math.sin(i * .17 + time * .001) * 5
-        const xx = x * Math.cos(turn) + z * Math.sin(turn)
-        const zz = -x * Math.sin(turn) + z * Math.cos(turn)
-        const perspective = 750 / (750 - zz)
-        const wave = reduced.matches ? 0 : Math.sin(x * .02 + time * .001) * 4
-        const px = width / 2 + xx * scale * perspective, py = height / 2 + (y + wave + pointerY * 8) * scale * perspective
-        const glow = .55 + .45 * Math.sin(i * .37 + time * .0008)
-        ctx.fillStyle = i % 13 === 0 ? `rgba(218,255,247,${glow})` : `rgba(76,249,213,${.35 + glow * .6})`
-        ctx.beginPath(); ctx.arc(px, py, (1.1 + glow * .7) * scale * perspective, 0, Math.PI * 2); ctx.fill()
-      }
-      for (let i = 0; i < 60; i++) {
-        const x = (Math.sin(i * 127.1) * .5 + .5) * width
-        const y = ((i * 137 + time * .008) % (height + 40)) - 20
-        ctx.fillStyle = i % 4 === 0 ? '#4cf9d560' : '#b3e5db28'
-        ctx.fillRect(x, y, i % 4 === 0 ? 2 : 1, i % 4 === 0 ? 2 : 1)
-      }
-    }
-    const loop = (now: number) => {
-      if (visible && !document.hidden && !paused && !reduced.matches) { time += Math.min(now - last, 50); elapsed.current = time; draw() }
-      last = now; frame = requestAnimationFrame(loop)
-    }
-    const pointer = (event: PointerEvent) => { const r = canvas.getBoundingClientRect(); pointerX = (event.clientX - r.left) / r.width - .5; pointerY = (event.clientY - r.top) / r.height - .5 }
-    const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting })
-    resize.observe(canvas); observer.observe(canvas); canvas.addEventListener('pointermove', pointer)
-    frame = requestAnimationFrame(loop)
-    return () => { cancelAnimationFrame(frame); resize.disconnect(); observer.disconnect(); canvas.removeEventListener('pointermove', pointer) }
-  }, [paused])
-  return <div className="sm-scene"><div className="sm-orbit sm-orbit-one"/><div className="sm-orbit sm-orbit-two"/><div className="sm-scene-cross cross-one">+</div><div className="sm-scene-cross cross-two">+</div><canvas ref={canvasRef} aria-hidden="true"/><div className="sm-scene-label"><span className="sm-live-dot"/> W / BLADE · PARTICLE STUDY <span>001</span></div><button className="sm-motion-toggle" onClick={() => setPaused(p => !p)} aria-label={paused ? 'Включить анимацию' : 'Приостановить анимацию'} aria-pressed={paused}>{paused ? <Play size={13}/> : <Pause size={13}/>}</button><noscript><svg className="sm-knife-fallback" viewBox="0 0 600 470" aria-hidden="true"><path d={knife} fill="#4cf9d5" fillRule="evenodd"/></svg></noscript></div>
-}
+export { WalletUniverse } from './wallet-universe'
 
 const buy = [
   { title: 'Найди свой скин', text: 'Открой Skinmarket в Wooppay. Подключи Steam, добавь Trade Link и выбери предмет в маркете.', image: 'market', alt: 'Каталог Skinmarket в приложении Wooppay' },
