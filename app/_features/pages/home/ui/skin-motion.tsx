@@ -7,7 +7,7 @@ import type { ComponentProps } from 'react'
 
 type JourneyStep = { title: string; text: string; image: ComponentProps<typeof AppScreen>['screen']; label: string }
 
-// Two independent rhythms: a quiet topographic field and a morphing dot display.
+// A perspective particle current turns inventory into money across the page.
 export function MatrixScene({ background = false }: { background?: boolean }) {
   const canvas = useRef<HTMLCanvasElement>(null)
   const [paused, setPaused] = useState(false)
@@ -59,13 +59,73 @@ export function MatrixScene({ background = false }: { background?: boolean }) {
       ctx.clearRect(0, 0, width, height)
       const t = elapsed / 1000
       if (background) {
-        const spacing = width < 600 ? 24 : 28
-        for (let x = 0; x < width; x += spacing) for (let y = 0; y < height; y += spacing) {
-          const wave = Math.sin(x * .007 + y * .009 - t * .18)
-          const ribbon = Math.pow((wave + 1) / 2, 8)
-          ctx.fillStyle = `rgba(0,225,231,${.045 + ribbon * .19})`
-          ctx.beginPath(); ctx.arc(x, y + Math.sin(x * .008 + t * .15) * 10, .8 + ribbon * 1.1, 0, Math.PI * 2); ctx.fill()
+        const mobile = width < 760
+        const scroll = window.scrollY * .00018
+        const unit = Math.min(width * .42, 510)
+        ctx.globalCompositeOperation = 'lighter'
+        const dot = (x: number, y: number, z: number, cyan: boolean, intensity: number) => {
+          const perspective = 2.8 / (2.8 + z)
+          const px = width * .5 + x * unit * perspective
+          const py = height * .5 + y * unit * perspective
+          const edge = Math.min(1, Math.abs(px / width - .5) * 2)
+          const alpha = intensity * (.16 + edge * .84)
+          ctx.fillStyle = cyan ? `rgba(0,239,229,${alpha})` : `rgba(162,132,255,${alpha})`
+          ctx.beginPath(); ctx.arc(px, py, Math.max(.65, perspective * 1.25), 0, Math.PI * 2); ctx.fill()
         }
+        // Angular, parallel rails carry the entire packet through the transaction.
+        const points = [[-1.85, -1.5], [-1.2, -.85], [-1.2, -.2], [.9, .45], [.9, 1.05], [1.9, 1.8]]
+        for (let rail = 0; rail < (mobile ? 9 : 15); rail++) {
+          const offset = (rail - (mobile ? 4 : 7)) * .035
+          for (let segment = 0; segment < points.length - 1; segment++) {
+            const start = points[segment], end = points[segment + 1]
+            for (let step = 0; step < 65; step++) {
+              const p = step / 65
+              const travel = segment + p
+              const packet = ((travel - t * .26 - scroll) % 5 + 5) % 5
+              const intensity = packet < .48 ? .55 : .1
+              dot(start[0] + (end[0] - start[0]) * p + offset,
+                (start[1] + (end[1] - start[1]) * p) * height / (unit * 2.4) + offset,
+                .3 + rail * .025, segment > 2, intensity)
+            }
+          }
+        }
+        // Exploded rectangular layers: inventory tray → protected deal → wallet.
+        const outlines = [
+          [[-.68, -.45], [.68, -.45], [.68, .45], [-.68, .45], [-.68, -.45]],
+          [[0, -.64], [.57, -.38], [.48, .3], [0, .66], [-.48, .3], [-.57, -.38], [0, -.64]],
+          [[-.68, -.43], [.54, -.43], [.68, -.29], [.68, -.12], [.14, -.12], [.14, .22], [.68, .22], [.68, .46], [-.68, .46], [-.68, -.43]],
+        ]
+        for (let object = 0; object < 6; object++) {
+          const kind = object % 3
+          const side = object % 2 ? 1 : -1
+          const cx = side * (width / unit * .49)
+          const cy = (object / 5 - .5) * height / unit * .95
+          const yaw = side * .48 + Math.sin(t * .16 + object) * .12
+          const float = Math.sin(t * .24 + object * 2) * .035
+          const outline = outlines[kind]
+          for (let layer = 7; layer >= 0; layer--) {
+            const depth = layer * .055
+            for (let segment = 0; segment < outline.length - 1; segment++) {
+              const a = outline[segment], b = outline[segment + 1]
+              for (let step = 0; step < 24; step++) {
+                const p = step / 24
+                const x = a[0] + (b[0] - a[0]) * p
+                const y = a[1] + (b[1] - a[1]) * p
+                dot(cx + x * Math.cos(yaw) + depth * Math.sin(yaw),
+                  cy + y + x * .22 + float, depth + .1, kind === 2,
+                  layer === 0 ? .48 : .12)
+              }
+            }
+          }
+          // Internal symbols are built from the same dot grid as the objects.
+          const glyph = shapes[kind === 2 ? 1 : 0]
+          for (let i = 0; i < glyph.length; i += 3) {
+            const p = glyph[i]
+            dot(cx + p.x * .85 * Math.cos(yaw), cy + p.y * .43 + p.x * .18 + float,
+              .08, kind === 2, .38)
+          }
+        }
+        ctx.globalCompositeOperation = 'source-over' 
       } else {
         const phase = t / 6, current = Math.floor(phase) % shapes.length, next = (current + 1) % shapes.length
         const progress = Math.min(1, Math.max(0, (phase % 1 - .7) / .3))
