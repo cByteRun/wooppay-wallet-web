@@ -222,3 +222,14 @@
 @keyframes sk-screen-reveal{from{opacity:.25;filter:brightness(1.6);transform:translateY(4px)}to{opacity:1;filter:brightness(1);transform:translateY(0)}}
 @media(max-width:760px){.sk-matrix-console{grid-template-columns:1fr;padding:16px;gap:28px}.sk-console-display{padding:14px}.sk-console-head{font-size:8px;letter-spacing:.3px}.sk-screen-frame{width:230px}.sk-console-copy{padding:0 4px}.sk-console-readout{min-height:0;padding-block:20px 24px}.sk-console-readout h3{font-size:28px}.sk-console-readout p{font-size:15px}.sk-touch-hint{font-size:8px}.sk-ecosystem-card{padding:24px 28px 28px}.sk-ecosystem-card .sk-dot-emblem{height:125px}.sk-ecosystem-card .sk-dot-emblem span{font-size:56px}}
 @media(prefers-reduced-motion:reduce){.sk-screen-crop{animation:none}.sk-ecosystem-card,.sk-dot-progress i{transition:none}.sk-ecosystem-card:hover{transform:none}}
+
+/* Inventory → tenge → everyday payments. Keep decoration outside the reading column. */
+.sk-ecosystem-background{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;contain:strict}
+.sk-ecosystem-background>svg{position:absolute;height:auto;max-width:none}
+.sk-background-inventory{width:clamp(260px,32vw,520px);left:clamp(-320px,-20vw,-180px);top:8%;transform:rotate(-18deg);animation:sk-inventory-drift 26s ease-in-out infinite alternate}
+.sk-background-balance{width:clamp(320px,38vw,610px);right:clamp(-350px,-24vw,-200px);top:20%;animation:sk-balance-drift 30s ease-in-out infinite alternate}
+.sk-background-vignette{position:absolute;inset:0;background:linear-gradient(90deg,transparent,#141724b8 22%,#141724ed 40%,#141724ed 60%,#141724b8 78%,transparent)}
+@keyframes sk-inventory-drift{to{transform:translateY(22px) rotate(-12deg)}}
+@keyframes sk-balance-drift{to{transform:translateY(-18px) rotate(4deg)}}
+@media(max-width:760px){.sk-background-inventory{width:300px;left:-230px;top:12%;opacity:.65}.sk-background-balance{width:360px;right:-290px;top:40%;opacity:.65}.sk-background-vignette{background:linear-gradient(90deg,transparent,#141724e6 18%,#141724f5 50%,#141724e6 82%,transparent)}}
+@media(prefers-reduced-motion:reduce){.sk-ecosystem-background>svg{animation:none}}

@@ -10,7 +10,8 @@ import { OFFICIAL } from '@/shared/config/official-resources'
 import { DownloadGateway } from '@/features/app-download/ui/download-gateway'
 import { LandingDialogs } from './landing-dialogs'
 import { AppScreen } from './skin-art'
-import { MatrixScene, TradeJourney } from './skin-motion'
+import { TradeJourney } from './skin-motion'
+import { EcosystemBackground } from './ecosystem-background'
 import { ProfitConveyor } from './profit-conveyor'
 import { P2PFlow } from './p2p-flow'
 import { skinFaq } from './landing-content'
@@ -25,7 +26,7 @@ function Brand() {
 export default async function Home() {
   const telegramQr = await QRCode.toDataURL(telegram, { width: 280, margin: 4, errorCorrectionLevel: 'M' })
   return <main className={`sk-root ${displayFont.variable}`} id="top">
-    <MatrixScene background/><LandingDialogs telegramQr={telegramQr}/><StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${SITE_URL}/#skinmarket-faq`, mainEntity: skinFaq.map(item => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) }}/>
+    <EcosystemBackground/><LandingDialogs telegramQr={telegramQr}/><StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', '@id': `${SITE_URL}/#skinmarket-faq`, mainEntity: skinFaq.map(item => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) }}/>
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${SITE_URL}/#webpage`, url: SITE_URL, name: 'SkinMarket — скины CS2 без комиссии продавца | Wooppay', description: 'P2P-маркет скинов CS2 в Казахстане. Комиссия продавца 0%, расчёты в тенге через кошелёк Wooppay.', inLanguage: 'ru-KZ' }}/>
     <a className="sk-skip" href="#content">К содержимому</a>
     <header className="sk-header sk-wrap"><Brand/><nav aria-label="Главная навигация"><a href="#benefits">Почему SkinMarket</a><a href="#how">Как это работает</a><a href="#wallet">Кошелёк</a></nav><a className="sk-header-cta" href="#download">Скачать Wooppay <ArrowUpRight size={16}/></a></header>
