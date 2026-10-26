@@ -1,11 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap');
 @import "tailwindcss";
 :root { --ink:#f7f8ff; --muted:#a9aec6; --line:rgba(255,255,255,.12); --violet:#9f76ff; --cyan:#53d8ff; }
 * { box-sizing:border-box; }
 html { scroll-behavior:smooth; }
-body { margin:0; background:#08091b; color:var(--ink); font-family:'DM Sans',sans-serif; }
-h1,h2,h3 { font-family:'Manrope',sans-serif; letter-spacing:-.055em; }
+body { margin:0; background:#08091b; color:var(--ink); font-family:Arial,Helvetica,sans-serif; }
+h1,h2,h3 { font-family:Arial,Helvetica,sans-serif; letter-spacing:-.055em; }
 ::selection { background:#9f76ff; color:white; }
 .gradient-text { background:linear-gradient(110deg,#fff 18%,#b99cff 60%,#7ce9ff); -webkit-background-clip:text; background-clip:text; color:transparent; }
 .grid-bg { background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px); background-size:72px 72px; }
 .glow { box-shadow:0 0 100px rgba(136,85,255,.25), inset 0 1px rgba(255,255,255,.12); }
+
+:focus-visible { outline: 3px solid var(--cyan); outline-offset: 5px; }
+.download-qr { display: none; }
+@media (min-width: 768px) { .download-qr { display: flex; } }
+.app-download[data-platform="ios"] .download-qr,
+.app-download[data-platform="android"] .download-qr { display: none; }
+.app-download[data-platform="ios"] a[data-store="ios"],
+.app-download[data-platform="android"] a[data-store="android"] { background: white; color: #08091b; order: -1; }
+.store-link:hover { background: #ddd6fe; color: #08091b; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } *, *::before, *::after { animation: none !important; transition: none !important; } }

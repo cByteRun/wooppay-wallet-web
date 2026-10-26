@@ -1,5 +1,9 @@
-import { SiteNav } from "@/components/site-nav"
-import { SupportAssistant } from "@/components/support-assistant"
-export const metadata={title:"FAQ — Wooppay Wallet",description:"Ответы на частые вопросы о Wooppay Wallet, платежах, переводах и безопасности."}
-const faqs=[['Что такое Wooppay Wallet?','Wooppay Wallet — мобильный кошелек для оплаты услуг, переводов и управления ежедневными финансами.'],['Как скачать приложение?','Откройте страницу «Скачать» с мобильного устройства или используйте QR-код на десктопе.'],['Безопасны ли мои платежи?','Мы уделяем внимание защите операций и показываем понятные статусы, чтобы вы контролировали каждый шаг.'],['Как связаться с поддержкой?','Сначала задайте вопрос помощнику на этой странице. Если он не найдёт ответ, запрос можно передать специалисту.']]
-export default function FAQ(){return <main className="min-h-screen"><SiteNav/><section className="mx-auto max-w-4xl px-6 py-24 lg:px-10"><p className="text-sm uppercase tracking-[.2em] text-violet-300">Центр помощи</p><h1 className="mt-5 text-5xl font-semibold sm:text-7xl">Ответы рядом.</h1><p className="mt-6 max-w-xl text-lg leading-8 text-slate-400">Коротко отвечаем на популярные вопросы о Wooppay Wallet.</p><div className="mt-14 flex flex-col gap-3">{faqs.map(([q,a])=><details key={q} className="group rounded-2xl border border-white/10 bg-white/[.035] p-6"><summary className="cursor-pointer list-none font-semibold">{q}<span className="float-right text-violet-300">+</span></summary><p className="mt-4 max-w-2xl leading-7 text-slate-400">{a}</p></details>)}</div></section><SupportAssistant/></main>}
+import Link from 'next/link'
+import { SiteNav } from '@/components/site-nav'
+import { faqItems } from '@/entities/wallet/model/content'
+import { pageMetadata } from '@/shared/lib/seo/metadata'
+import { Breadcrumbs } from '@/shared/ui/breadcrumbs'
+export const metadata = pageMetadata('/faq')
+export default function FAQ() {
+  return <main><SiteNav /><section className="mx-auto max-w-4xl px-6 py-20"><Breadcrumbs title="Вопросы и ответы" path="/faq" /><h1 className="text-4xl font-semibold sm:text-6xl">Вопросы и ответы о Wooppay</h1><p className="mt-6 text-lg leading-8 text-slate-300">Приложение, установка, условия операций и официальные каналы поддержки.</p><div className="mt-12 space-y-5">{faqItems.map(item => <section key={item.question} className="rounded-2xl border border-white/10 bg-white/5 p-6"><h2 className="text-xl font-semibold">{item.question}</h2><p className="mt-4 leading-7 text-slate-300">{item.answer}</p></section>)}</div><Link href="/download" className="mt-10 inline-block text-violet-200 underline">Скачать Wooppay или показать QR-коды</Link></section></main>
+}

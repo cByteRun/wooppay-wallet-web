@@ -1,2 +1,2 @@
-import { Apple, Play, QrCode } from "lucide-react"
-export function DownloadCta() { return <div className="flex flex-wrap gap-3"><a href="https://apps.apple.com/" className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-violet-100"><Apple size={18}/> App Store</a><a href="https://play.google.com/" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold transition hover:border-white/50"><Play size={17}/> Google Play</a><a href="#qr" className="inline-flex items-center gap-2 rounded-full border border-white/20 px-5 py-3 text-sm font-semibold transition hover:border-white/50"><QrCode size={17}/> QR-код</a></div> }
+// Compatibility entry point for the existing pages.
+export { DownloadCta } from '@/features/app-download/ui/download-cta'

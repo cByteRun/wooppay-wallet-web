@@ -1,4 +1,7 @@
-import { SiteNav } from "@/components/site-nav"
-import { DownloadCta } from "@/components/download-cta"
-export const metadata={title:"Скачать Wooppay Wallet",description:"Скачайте Wooppay Wallet для iOS и Android."}
-export default function Download(){return <main className="min-h-screen"><SiteNav/><section className="mx-auto max-w-4xl px-6 py-24 text-center lg:px-10"><p className="text-sm uppercase tracking-[.2em] text-violet-300">Wooppay Wallet</p><h1 className="mt-5 text-5xl font-semibold sm:text-7xl">Начните сейчас.</h1><p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-400">Скачайте приложение из официального магазина и управляйте платежами в удобном формате.</p><div className="mt-9 flex justify-center"><DownloadCta/></div><div id="qr" className="mx-auto mt-16 grid size-48 place-items-center rounded-3xl bg-white p-5 text-center text-sm font-semibold text-slate-950">QR-код<br/>Wooppay Wallet</div></section></main>}
+import { SiteNav } from '@/components/site-nav'
+import { DownloadGateway } from '@/features/app-download/ui/download-gateway'
+import { pageMetadata } from '@/shared/lib/seo/metadata'
+export const metadata = pageMetadata('/download')
+export default function Download() {
+  return <main className="min-h-screen"><SiteNav /><section className="mx-auto max-w-4xl px-6 py-24 text-center lg:px-10"><p className="text-sm uppercase tracking-[.2em] text-violet-300">Wooppay Wallet</p><h1 className="mt-5 text-4xl font-semibold sm:text-6xl">Скачать Wooppay Wallet</h1><p className="mx-auto mb-9 mt-6 max-w-xl text-lg leading-8 text-slate-300">Приложение Wooppay доступно для iPhone и Android. Выберите магазин приложений или отсканируйте его QR-код с компьютера.</p><DownloadGateway /><p className="mt-10 text-sm text-slate-400">Установку завершает магазин приложений. Системные требования и доступность в вашем регионе указаны в карточке Wooppay.</p></section></main>
+}
