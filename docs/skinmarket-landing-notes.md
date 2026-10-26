@@ -92,3 +92,23 @@ Eight visible, server-rendered FAQ answers cover the service, buying, Steam/Trad
 - Title/description/canonical/social cards, favicon, WebPage and FAQ schema. Existing staging indexing policy remains in force; production indexing requires the configured project flag.
 - `npm run lint`, `npm run typecheck`, production build with `npm run build -- --webpack`, and `npm run check:seo` passed.
 - Chromium exercised widths 360, 390, 768, 1024, and 1440, buy/top-up scroll transitions, accordion expansion, animation pause, download anchor, loaded images, and content without JavaScript. No horizontal overflow or page errors. Turbopack encountered an environment process/port restriction; Webpack completed successfully.
+
+### Original marketing PNGs
+
+`node scripts/prepare-marketing-assets.mjs` reproduces `public/skinmarket/originals/`
+from the local references. Phone PNGs are copied byte-for-byte at 1103×2269;
+item cutouts keep their native resolution and use lossless PNG encoding. Only
+edge-connected flat screenshot backgrounds are removed. No sharpening, upscaling,
+hue shifts, or lossy WebP conversion is applied.
+
+`AppScreen` and the item selector use static imports with `unoptimized` so the
+browser receives the original PNG pixels. Phone CSS preserves the source aspect
+ratio. The Lore cutout is only 200×150, so its hero rendering is capped at native
+size; a higher-resolution source is required for true Retina detail at that size.
+Tiger Tooth and Aquamarine Revenge replace the simulated Doppler/Fade finishes:
+these are the actual items available in the supplied references. Prices remain
+explicitly illustrative. Store icons and functional SVG icons/QR codes stay vector.
+
+The supplied references do not contain separate Steam authorization or seller
+screens. Those journey steps reuse the real SkinMarket home/catalog screens
+rather than fabricating an app interface.
