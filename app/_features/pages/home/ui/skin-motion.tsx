@@ -60,7 +60,7 @@ export function MatrixScene({ background = false }: { background?: boolean }) {
         for (let x = 0; x < width; x += spacing) for (let y = 0; y < height; y += spacing) {
           const wave = Math.sin(x * .007 + y * .009 - t * .18)
           const ribbon = Math.pow((wave + 1) / 2, 8)
-          ctx.fillStyle = `rgba(0,225,231,${.025 + ribbon * .13})`
+          ctx.fillStyle = `rgba(0,225,231,${.045 + ribbon * .19})`
           ctx.beginPath(); ctx.arc(x, y + Math.sin(x * .008 + t * .15) * 10, .8 + ribbon * 1.1, 0, Math.PI * 2); ctx.fill()
         }
       } else {
@@ -75,14 +75,14 @@ export function MatrixScene({ background = false }: { background?: boolean }) {
           const y = (p.y + (q.y - p.y) * blend) * scale * .5
           const shimmer = .6 + .4 * Math.sin(i * .32 + t * 2)
           ctx.fillStyle = i % 13 === 0 ? `rgba(139,104,255,${shimmer})` : `rgba(0,240,240,${shimmer})`
-          ctx.beginPath(); ctx.arc(width / 2 + x + Math.sin(t + y * .009) * 5, height * .33 + y, 1.45, 0, Math.PI * 2); ctx.fill()
+          ctx.beginPath(); ctx.arc(width / 2 + x + Math.sin(t + y * .009) * 5, height * .43 + y, 1.45, 0, Math.PI * 2); ctx.fill()
         }
         // Elliptical transaction paths visually carry the inventory into the wallet.
         for (let i = 0; i < 90; i++) {
           const angle = i / 90 * Math.PI * 2 + t * .24
           const x = Math.cos(angle) * width * .43, y = Math.sin(angle) * height * .18
           ctx.fillStyle = `rgba(181,159,255,${.2 + .5 * Math.pow((Math.sin(angle) + 1) / 2, 4)})`
-          ctx.beginPath(); ctx.arc(width / 2 + x, height * .57 + y + x * .2, i % 9 === 0 ? 2.2 : 1, 0, Math.PI * 2); ctx.fill()
+          ctx.beginPath(); ctx.arc(width / 2 + x, height * .65 + y + x * .12, i % 9 === 0 ? 2.2 : 1, 0, Math.PI * 2); ctx.fill()
         }
       }
     }

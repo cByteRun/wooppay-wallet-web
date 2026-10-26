@@ -46,3 +46,20 @@
 @media(min-width:1550px){.sk-hero-art{height:740px}.sk-hero-phone{top:155px;width:270px}.sk-profit-card{top:435px}}
 @media(min-width:761px) and (max-width:1100px){.sk-hero-grid{gap:18px;min-height:720px}.sk-root h1{font-size:37px}.sk-hero-phone{width:205px;left:35%;top:150px}.sk-hero-art{height:640px}.sk-profit-card{left:-3%;top:365px;width:140px}.sk-balance-card{bottom:60px;right:-5px}.sk-brand>span{font-size:19px}.sk-benefit h3{font-size:16px}}
 @media(max-width:760px){.sk-root h1{font-size:clamp(30px,7.7vw,52px);line-height:1.23;letter-spacing:-.055em}.sk-root h1 em{font-size:.82em;display:block;max-width:100%}.sk-root h1 em br{display:block}.sk-hero-grid{grid-template-columns:1fr;gap:0;min-height:0}.sk-hero-intro{font-size:11px;margin-top:22px!important}.sk-hero-copy{padding-top:36px}.sk-brand>span{font-size:17px}.sk-header-cta{font-size:9px;gap:8px}.sk-hero-art{height:570px;width:min(440px,100%)}.sk-art-caption{top:25px}.sk-hero-phone{width:205px;left:37%;top:100px}.sk-hero-skin{top:35px;left:-10%;width:105%}.sk-skin-tag{top:75px;left:0;font-size:8px}.sk-profit-card{top:325px;left:0;width:140px}.sk-balance-card{bottom:50px;right:0;padding:14px;gap:10px}.sk-balance-card strong{font-size:28px}.sk-art-note{bottom:12px}.sk-stores>a,.sk-stores>a:nth-child(2){padding:12px;gap:8px}.sk-stores>a>span{min-width:76px;font-size:12px}.sk-root h2{font-size:clamp(27px,7vw,37px)}.sk-section-heading>p{font-size:18px;line-height:1.55;margin-top:24px}.sk-benefit h3{font-size:20px}.sk-journey-steps h3{font-size:21px}.sk-download-title h2{font-size:32px}.sk-community strong{font-size:14px}.sk-community{gap:12px}.sk-end .sk-brand>span{font-size:17px}}
+
+/* Give the dot display its own space above the wallet illustration. */
+.sk-field{z-index:0;mask-image:linear-gradient(90deg,#0006,#000)}
+.sk-hero-grid,.sk-hero-bottom{position:relative;z-index:1}
+.sk-hero-art{height:780px}
+.sk-matrix-stage{position:absolute;top:65px;left:0;width:100%;height:230px;isolation:isolate}
+.sk-matrix-stage .sk-matrix{z-index:0}
+.sk-matrix-stage .sk-motion-toggle{bottom:0;right:8px;color:#d5dcf4}
+.sk-static-zero{top:90px;left:15%;font-size:125px}
+.sk-hero-phone{top:330px;left:40%;width:195px}
+.sk-profit-card{top:365px;left:0}
+.sk-balance-card{bottom:45px;right:0}
+.sk-art-note{bottom:12px;left:0}
+@media(min-width:1550px){.sk-hero-art{height:820px}.sk-matrix-stage{height:250px}.sk-hero-phone{top:350px;width:210px}.sk-profit-card{top:400px}}
+@media(min-width:761px) and (max-width:1100px){.sk-hero-art{height:730px}.sk-matrix-stage{height:210px}.sk-hero-phone{top:315px;left:39%;width:170px}.sk-profit-card{top:340px;width:125px}.sk-balance-card{bottom:45px}}
+@media(max-width:760px){.sk-hero-art{height:720px}.sk-matrix-stage{top:55px;height:220px}.sk-hero-phone{top:310px;left:42%;width:175px}.sk-profit-card{top:345px;width:125px;padding:14px}.sk-balance-card{bottom:40px}.sk-art-note{bottom:9px;font-size:7px}}
+@media(max-width:380px){.sk-hero-phone{left:40%;width:155px}.sk-profit-card{width:115px}.sk-balance-card{padding:12px}.sk-balance-card strong{font-size:25px}}
