@@ -1,3 +1,5 @@
+import { OfficialHelp } from '@/components/official-help'
+import { OFFICIAL } from '@/shared/config/official-resources'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { SiteNav } from '@/components/site-nav'
@@ -30,16 +32,17 @@ export default async function FaqGuide({ params }: Props) {
     </nav>
     <h1 className="text-4xl font-semibold">{guide.question}</h1>
     <p className="mt-6 text-lg leading-8 text-slate-300">{guide.answer}</p>
-    <p className="mt-6 text-sm text-slate-400">Проверено <time dateTime={CONTENT_REVIEWED_AT}>26 октября 2026</time> по официальным карточкам приложения.</p>
+    <p className="mt-6 text-sm text-slate-400">Проверено <time dateTime={CONTENT_REVIEWED_AT}>26 октября 2026</time> по официальным ресурсам Wooppay.</p>
     <section className="mt-10"><h2 className="text-2xl font-semibold">Официальные источники</h2>
       <ul className="mt-4 space-y-3 text-violet-200">
-        <li><a href={STORE_LINKS.ios} className="underline">Wooppay App в App Store</a></li>
+        <li><a href={OFFICIAL.commissions} className="underline">Комиссии по сервисам</a></li><li><a href={OFFICIAL.documents} className="underline">Действующие соглашения и правила</a></li><li><a href={OFFICIAL.help} className="underline">Справка Wooppay</a></li><li><a href={STORE_LINKS.ios} className="underline">Wooppay App в App Store</a></li>
         <li><a href={STORE_LINKS.android} className="underline">Wooppay App в Google Play</a></li>
       </ul>
     </section>
+    <OfficialHelp />
     <nav aria-label="Следующий шаг" className="mt-10 flex flex-wrap gap-6 text-violet-200">
       <Link href="/download" className="underline">Скачать приложение и открыть QR-коды</Link>
-      <Link href={guide.slug === 'tariffs' ? '/tariffs' : '/security'} className="underline">{guide.slug === 'tariffs' ? 'Проверка тарифов и лимитов' : 'Безопасность и поддержка'}</Link>
+      <Link href={(guide.slug === 'tariffs' || guide.slug === 'limits') ? '/tariffs' : '/security'} className="underline">{(guide.slug === 'tariffs' || guide.slug === 'limits') ? 'Проверка тарифов и лимитов' : 'Безопасность и поддержка'}</Link>
     </nav>
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'WebPage', '@id': `${url}#webpage`, url, name: guide.question, description: guide.answer, inLanguage: 'ru-KZ', dateModified: CONTENT_REVIEWED_AT, isPartOf: { '@id': `${SITE_URL}/#website` }, about: { '@id': `${SITE_URL}/#app` } }} />
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [

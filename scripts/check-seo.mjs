@@ -5,7 +5,7 @@ import jsQR from 'jsqr'
 import { detectPlatform } from '../features/app-download/model/platform.ts'
 
 // Inspect actual build output, not React's hydration payload or source strings.
-const routes = ['', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq', 'faq/download', 'faq/tariffs', 'faq/support']
+const routes = ['', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq', 'faq/download', 'faq/tariffs', 'faq/support', 'faq/limits', 'documents']
 const origin = (process.env.SITE_URL || 'https://wooppay.com').replace(/\/$/, '')
 const index = process.env.SITE_INDEXING_ENABLED === 'true'
 const titles = new Set()
@@ -31,6 +31,13 @@ for (const route of routes) {
     assert.equal(schema['@context'], 'https://schema.org')
   }
   assert.ok(schemaCount > 0, `${route}: server-rendered JSON-LD`)
+  assert.ok(visibleHtml.includes('href="/documents"'), route + ': legal hub reachable');
+  assert.ok(visibleHtml.includes('href="mailto:spp@wooppay.com"'), route + ': direct support available');
+  if (['payments', 'transfers', 'skinmarket', 'tariffs', 'documents'].includes(route) || route.startsWith('faq/')) {
+    assert.ok(visibleHtml.includes('href="https://www.wooppay.com/site/commissions"'), route + ': official fees');
+    assert.ok(visibleHtml.includes('href="https://www.wooppay.com/site/agreement"'), route + ': official terms');
+    assert.ok(visibleHtml.includes('href="https://t.me/wooppay_support"'), route + ': support escalation');
+  }
   if (route.startsWith('faq/')) {
     assert.ok(visibleHtml.includes('Проверено'), `${route}: visible review date`)
     assert.ok(visibleHtml.includes('href="/faq"'), `${route}: parent FAQ link`)

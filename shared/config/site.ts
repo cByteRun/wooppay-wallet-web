@@ -22,6 +22,7 @@ export const SITE_PAGES = [
   { path: '/skinmarket', title: 'SkinMarket CS2 в приложении Wooppay', description: 'Покупка, продажа и обмен скинов CS2 внутри Wooppay. Где найти SkinMarket и проверить условия сделки.' },
   { path: '/tariffs', title: 'Тарифы и лимиты Wooppay: где проверить условия', description: 'Как проверить комиссию, курс и ограничения операции в Wooppay перед подтверждением платежа или пополнения.' },
   { path: '/security', title: 'Безопасность и поддержка Wooppay Wallet', description: 'Как найти официальное приложение Wooppay и контакты поддержки, проверить платежи и защитить доступ к кошельку.' },
+  { path: '/documents', title: 'Документы, оператор и правила Wooppay', description: 'Оператор Wooppay, реестр Нацбанка Казахстана, официальные соглашения, правила оплаты, SkinMarket и политики обработки данных.' },
   { path: '/faq', title: 'Вопросы и ответы о Wooppay Wallet', description: 'Что такое Wooppay, где скачать приложение, как проверить условия операций и найти поддержку.' },
   ...faqGuides.map(item => ({ path: `/faq/${item.slug}` as const, title: item.question, description: item.answer })),
 ] as const
