@@ -14,7 +14,7 @@ export const STORE_LINKS = {
 } as const
 export const CONTENT_REVIEWED_AT = '2026-10-26'
 export const SITE_PAGES = [
-  { path: '/', title: 'Wooppay Wallet — электронный кошелёк для iOS и Android', description: 'Wooppay Wallet: платежи, пополнения и цифровые сервисы. Узнайте о приложении и скачайте его в App Store или Google Play.' },
+  { path: '/', title: 'Wooppay Skinmarket — купить скины CS2 в Wooppay Wallet', description: 'Покупай и продавай скины CS2 в Wooppay Skinmarket. Маркет и кошелёк в одном приложении: покупка в 3 шага, пополнение, передача через Steam и поддержка.' },
   { path: '/download', title: 'Скачать Wooppay Wallet для iPhone и Android', description: 'Прямые ссылки на Wooppay в App Store и Google Play. На компьютере отсканируйте отдельный QR-код для iPhone или Android.' },
   { path: '/features', title: 'Возможности кошелька Wooppay', description: 'Возможности Wooppay: оплата услуг, пополнение зарубежных карт и электронных кошельков, SkinMarket CS2.' },
   { path: '/payments', title: 'Оплата услуг через Wooppay Wallet', description: 'Какие услуги можно оплачивать через Wooppay: мобильная связь, интернет, коммунальные и транспортные услуги.' },
