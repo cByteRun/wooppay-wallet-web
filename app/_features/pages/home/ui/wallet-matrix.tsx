@@ -1,15 +1,13 @@
 'use client'
 import { useTranslation } from '@/shared/lib/i18n/provider'
 
-import { useEffect, useRef, useState } from 'react'
-import { Pause, Play } from 'lucide-react'
+import { useEffect, useRef } from 'react'
 
 // A single lattice bends into a wallet, a transfer route and a game controller.
 export function WalletMatrix() {
   const t = useTranslation()
 
   const ref = useRef<HTMLCanvasElement>(null)
-  const [paused, setPaused] = useState(false)
   useEffect(() => {
     const canvas = ref.current
     const ctx = canvas?.getContext('2d')
@@ -46,9 +44,9 @@ export function WalletMatrix() {
     }
     const resize = new ResizeObserver(([entry]) => { width = entry.contentRect.width; height = entry.contentRect.height; const ratio = Math.min(devicePixelRatio || 1, 2); canvas.width = width * ratio; canvas.height = height * ratio; ctx.setTransform(ratio, 0, 0, ratio, 0, 0); draw() })
     const observer = new IntersectionObserver(([entry]) => { visible = entry.isIntersecting })
-    const loop = (now: number) => { if (visible && !document.hidden && !paused && !reduce.matches) { time += Math.min(now - last, 40); draw() }; last = now; frame = requestAnimationFrame(loop) }
+    const loop = (now: number) => { if (visible && !document.hidden && !reduce.matches) { time += Math.min(now - last, 40); draw() }; last = now; frame = requestAnimationFrame(loop) }
     resize.observe(canvas); observer.observe(canvas); frame = requestAnimationFrame(loop)
     return () => { resize.disconnect(); observer.disconnect(); cancelAnimationFrame(frame) }
-  }, [paused])
-  return <div className="wf-matrix"><canvas ref={ref} aria-hidden="true"/><div className="wf-matrix-core"><span>₸</span><small>{t("ОДИН БАЛАНС.")}<br/>{t("ТЫСЯЧИ ПЛАНОВ.")}</small></div><span className="wf-matrix-tag">{t("WOOPPAY / НА СВЯЗИ С ЖИЗНЬЮ")}</span><button aria-label={t(paused ? 'Включить анимацию' : 'Остановить анимацию')} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={16}/> : <Pause size={16}/>}</button></div>
+  }, [])
+  return <div className="wf-matrix"><canvas ref={ref} aria-hidden="true"/><div className="wf-matrix-core"><span>₸</span><small>{t("ОДИН БАЛАНС.")}<br/>{t("ТЫСЯЧИ ПЛАНОВ.")}</small></div><span className="wf-matrix-tag">{t("WOOPPAY / НА СВЯЗИ С ЖИЗНЬЮ")}</span></div>
 }

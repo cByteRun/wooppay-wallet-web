@@ -1,14 +1,13 @@
 'use client'
 import { useTranslation } from '@/shared/lib/i18n/provider'
 
-import { useEffect, useRef, useState } from 'react'
-import { ArrowUpRight, Pause, Play } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { ArrowUpRight } from 'lucide-react'
 
 export function PaymentMatrix() {
   const t = useTranslation()
 
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [paused, setPaused] = useState(false)
   useEffect(() => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
@@ -80,12 +79,12 @@ export function PaymentMatrix() {
     const theme = new MutationObserver(draw)
     theme.observe(document.documentElement, { attributes: true, attributeFilter: ['data-wallet-theme'] })
     function loop(now: number) {
-      if (visible && !paused && !reduced.matches && !document.hidden) { time += Math.min(now - last, 40); draw() }
+      if (visible && !reduced.matches && !document.hidden) { time += Math.min(now - last, 40); draw() }
       last = now; frame = requestAnimationFrame(loop)
     }
     resize.observe(canvas); observer.observe(canvas); frame = requestAnimationFrame(loop)
     return () => { resize.disconnect(); observer.disconnect(); theme.disconnect(); cancelAnimationFrame(frame) }
-  }, [paused])
+  }, [])
   return <section className="wf-payment-matrix wf-network" aria-labelledby="wf-network-title">
     <canvas ref={canvasRef} aria-hidden="true"/>
     <div className="wf-wrap wf-network-content">
@@ -106,6 +105,6 @@ export function PaymentMatrix() {
       </div>
       <div className="wf-network-bottom"><p>{t("Из Казахстана.")}<br/><strong>{t("С первым шагом в будущее.")}</strong></p><p>{t("Wooppay — первая зарегистрированная")}<br/>{t("платёжная организация Казахстана.")}</p><a href="#skinmarket">{t("P2P-маркет скинов CS2")} <ArrowUpRight size={18}/></a></div>
     </div>
-    <button type="button" className="wf-payment-pause" aria-label={t(paused ? 'Включить фоновую анимацию' : 'Остановить фоновую анимацию')} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={15}/> : <Pause size={15}/>}</button>
+    
   </section>
 }
