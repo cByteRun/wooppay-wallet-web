@@ -2,7 +2,7 @@ import assert from 'node:assert/strict'
 import { readFile } from 'node:fs/promises'
 import { PNG } from 'pngjs'
 import jsQR from 'jsqr'
-import { detectPlatform } from '../features/app-download/model/platform.ts'
+import { detectPlatform } from '../app/_features/features/app-download/model/platform.ts'
 
 // Inspect actual build output, not React's hydration payload or source strings.
 const routes = ['', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq', 'faq/download', 'faq/tariffs', 'faq/support', 'faq/limits', 'documents']

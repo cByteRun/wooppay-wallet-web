@@ -16,12 +16,32 @@
 
 ## Устройство приложения
 
-- `app/`: маршруты, серверные страницы, metadata routes. Сейчас 12 контентных маршрутов, включая `/faq/download`, `/faq/tariffs`, `/faq/support`.
-- `entities/wallet/model/content.ts`: единый набор ответов; FAQ-хаб, детальные страницы и их метаданные используют одинаковые факты.
-- `shared/config/site.ts`: реестр опубликованных страниц, домен, ссылки магазинов, политика индексации. Реестр питает sitemap и метаданные. Статус публикации в будущей CMS должен исключать черновики из всех этих представлений одновременно.
-- `shared/lib/seo/metadata.ts`, `shared/ui/structured-data.tsx`: canonical, OG/Twitter, безопасный JSON-LD (экранирование `<`). Сущности имеют разные стабильные `@id`: website, app, webpage.
-- `features/app-download`: серверные ссылки/QR и небольшое клиентское улучшение выбора платформы. JS не требуется для чтения и перехода.
-- Направление зависимостей: app → features/entities/shared; entities с фактами не импортирует app. Сейчас контент в репозитории, CMS ещё нет.
+Весь прикладной код размещён в `app/_features/` по слоям FSD. Префикс `_` делает папку приватной для App Router: она не создаёт URL и не конфликтует с существующим `/features`. Документация доменов остаётся в `docs/features/`.
+
+```text
+app/
+  layout.tsx                 # общий layout, metadata и правовое уведомление
+  page.tsx                   # тонкий вход главной
+  faq/page.tsx               # тонкий вход FAQ
+  faq/[slug]/page.tsx         # вход деталки, dynamicParams = false
+  features/page.tsx           # прежний публичный /features
+  ...                        # остальные прежние маршруты
+  robots.ts, sitemap.ts, opengraph-image.tsx
+  _features/
+    pages/                   # home, faq, faq-guide, service и остальные экраны
+    widgets/                 # site-nav, official-help
+    features/                # app-download, support-assistant
+    entities/wallet/model/   # content.ts, schema.ts
+    shared/                  # config, lib/seo, ui
+```
+
+- `@/` указывает на `app/_features/`. Импорты идут непосредственно к нужным модулям; старые совместимые входы `components/` удалены.
+- Направление зависимостей: маршруты → pages → widgets → features → entities → shared. Слой может обращаться к любому нижележащему слою; нижележащие слои не импортируют страницы или маршруты. `pages/service` содержит общий экран сервисных страниц, а не глобальный UI-компонент.
+- `entities/wallet/model/content.ts`: единые факты для FAQ, детальных страниц и metadata.
+- `shared/config/site.ts`: прежний реестр URL, домен, магазины, политика индексации. `shared/lib/seo/metadata.ts` и `shared/ui/structured-data.tsx`: canonical, OG/Twitter и безопасный JSON-LD.
+- `features/app-download`: серверные ссылки/QR и небольшое клиентское улучшение выбора платформы. Перенос не добавляет `use client` к страницам и виджетам.
+- Маршруты реэкспортируют экран и metadata из `pages`. Конфигурация маршрута `dynamicParams = false` остаётся буквальным значением в файле App Router для статического анализа Next.js.
+- URL, canonical, H1, JSON-LD, sitemap, robots и OG endpoint сохранены. Внутренние пути файлов не используются как публичные URL. Скрипт `check:seo` читает готовый HTML всех 14 страниц и использует новый путь к модели выбора платформы.
 
 ## Рендеринг и обновления
 

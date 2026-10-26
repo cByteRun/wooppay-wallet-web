@@ -17,7 +17,7 @@ npm run check:seo
 
 Скопируйте `.env.example` в `.env.local`. `SITE_URL` — согласованный origin, одинаковый для canonical и sitemap. Индексация по умолчанию выключена (`noindex`); для production установить `SITE_INDEXING_ENABLED=true` **перед сборкой**. Не включать для stage. Sitemap при выключенной индексации пустой, robots разрешает чтение noindex.
 
-Архитектура в стиле FSD: `app/` — маршруты; `entities/wallet/model` — продуктовые данные; `features/app-download` — установка; `shared/config`, `shared/lib/seo`, `shared/ui` — общая инфраструктура. `components/` сохраняет композицию существующих экранов и совместимые импорты. Массовое переименование ради структуры не улучшает SEO.
+FSD-код находится в приватной папке `app/_features/`: `pages/` — экраны, `widgets/` — общие блоки, `features/` — действия, `entities/` — продуктовые данные, `shared/` — инфраструктура. Алиас `@/` указывает на `app/_features/`. Файлы `app/**/page.tsx` остаются тонкими входами маршрутов. `_features` исключена из маршрутизации Next.js; публичный URL `/features` сохранён. Подробнее — [архитектура](docs/architecture.md).
 
 `wooppay:app-download` — локальное DOM-событие для будущего consent-aware адаптера аналитики. Доставка событий в GA/Amplitude и атрибуция установок не подключены. Сканирование QR напрямую в магазин не измеряется сайтом.
 

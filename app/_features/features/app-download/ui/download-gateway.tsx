@@ -1,6 +1,6 @@
 import QRCode from 'qrcode'
 import { STORE_LINKS } from '@/shared/config/site'
-import { DownloadCta } from './download-cta'
+import { DownloadCta } from '@/features/app-download/ui/download-cta'
 import { DownloadEnhancement } from './download-enhancement'
 
 export async function DownloadGateway() {
