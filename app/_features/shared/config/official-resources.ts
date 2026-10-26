@@ -1,6 +1,8 @@
 // Verified against the official service and regulator on 2026-10-26.
 // Keep external resources independent of SITE_URL: the brochure may use another host.
 export const OFFICIAL = {
+  instagram: 'https://www.instagram.com/wp_wallet/',
+  walletTelegram: 'https://t.me/wooppay_wallet',
   services: 'https://www.wooppay.com/services',
   commissions: 'https://www.wooppay.com/site/commissions',
   help: 'https://www.wooppay.com/faq',

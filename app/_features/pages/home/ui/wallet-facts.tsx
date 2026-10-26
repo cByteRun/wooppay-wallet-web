@@ -17,7 +17,7 @@ export async function WalletFacts() {
   ]
   return <section className="wf-facts" aria-labelledby="facts-heading">
     <div className="wf-wrap">
-      <p className="wf-eyebrow"><span className="wf-status"/>{t('В ЦИФРАХ И ДЕТАЛЯХ')}</p>
+      <p className="wf-eyebrow"><span className="wf-status"/>{t('02 / В ЦИФРАХ И ДЕТАЛЯХ')}</p>
       <div className="wf-heading"><h2 id="facts-heading">{t('За цифрами —')}<br/><span>{t('твои возможности.')}</span></h2><p>{t('От первой проверки суммы')}<br/>{t('до истории твоих сделок.')}</p></div>
       <div className="wf-facts-metrics">{metrics.map(metric => <a href={metric.url} target="_blank" rel="noreferrer" className="wf-fact-metric" key={metric.label}>
         <span className="wf-fact-source">{metric.source}<ArrowUpRight size={15} aria-hidden="true"/></span>
