@@ -206,3 +206,24 @@ html[data-wallet-theme=dark] body:has(.wf-root){background:#111019}html[data-wal
 @keyframes wf-review-scan{0%{transform:translateY(0);opacity:0}20%{opacity:.32}80%{opacity:.32}100%{transform:translateY(200%);opacity:0}}
 @media(max-width:1000px){.wf-review,.wf-review:nth-child(even){flex-basis:calc((100% - 18px)/2)}}
 @media(max-width:760px){.wf-reviews-rating{justify-self:start;max-width:none;padding:24px}.wf-reviews-toolbar{font-size:8px;gap:12px}.wf-review,.wf-review:nth-child(even){flex-basis:86%;min-width:0;padding:22px;min-height:310px}.wf-reviews-toolbar>span:last-child{font-size:10px}.wf-review blockquote{font-size:15px}}
+
+/* Store evidence bridges the service cards and SkinMarket in the same dot language. */
+.wf-facts{padding-block:72px 80px;border-top:1px solid var(--wf-line);background:radial-gradient(ellipse at 10% 55%,#9579ff0c,transparent 65%)}
+.wf-facts .wf-eyebrow{margin-bottom:26px}.wf-facts .wf-heading{align-items:end;margin-bottom:38px}
+.wf-facts-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));border-block:1px solid var(--wf-line)}
+.wf-fact-metric{position:relative;display:flex;flex-direction:column;gap:18px;padding:24px 28px 30px;transition:background .2s}
+.wf-fact-metric:first-child{padding-left:0}.wf-fact-metric+.wf-fact-metric{border-left:1px solid var(--wf-line)}
+.wf-fact-metric:hover{background:color-mix(in srgb,var(--wf-purple) 4%,transparent)}
+.wf-fact-source{display:flex;justify-content:space-between;align-items:center;font:10px var(--wallet-display),sans-serif;letter-spacing:.08em;color:var(--wf-muted)}
+.wf-fact-metric .wf-dot-rating{display:block;font-size:clamp(52px,7vw,96px);letter-spacing:-.06em;white-space:nowrap}
+.wf-fact-metric>span:last-child{font-size:14px;color:var(--wf-muted)}
+.wf-facts-date{display:flex;justify-content:space-between;gap:20px;padding-top:16px;font-size:10px;line-height:1.7;color:var(--wf-muted)}
+.wf-facts-features{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:32px;margin-top:48px}
+.wf-facts-features article{display:flex;flex-direction:column;align-items:start}
+.wf-fact-feature-top{display:flex;align-items:center;justify-content:space-between;width:100%;color:var(--wf-purple);font:10px var(--wallet-display),sans-serif;letter-spacing:.08em;border-bottom:1px dotted var(--wf-line);padding-bottom:18px}
+.wf-facts-features h3{font:600 24px/1.3 var(--wallet-display),sans-serif;margin:22px 0 14px;letter-spacing:-.025em}
+.wf-facts-features p{font-size:14px;line-height:1.8;color:var(--wf-muted);margin-bottom:24px}
+.wf-facts-features .wf-text-link{margin-top:auto;font-size:13px}
+.wf-facts .wf-facts-note{margin-top:34px;max-width:85ch;font-size:11px;line-height:1.8;color:var(--wf-muted)}
+.wf-facts-note a{border-bottom:1px dotted currentColor}.wf-review-source:hover,.wf-rating-caption a:hover{color:var(--wf-purple);text-decoration:underline}
+@media(max-width:760px){.wf-facts{padding-block:48px}.wf-facts .wf-eyebrow{font-size:10px}.wf-facts-metrics{grid-template-columns:1fr}.wf-fact-metric,.wf-fact-metric:first-child{padding:22px 0;display:grid;grid-template-columns:1fr auto;gap:10px 20px;align-items:center}.wf-fact-metric+.wf-fact-metric{border-left:0;border-top:1px solid var(--wf-line)}.wf-fact-source{grid-column:1;gap:14px;justify-content:start}.wf-fact-metric .wf-dot-rating{grid-column:2;grid-row:1/3;font-size:62px}.wf-fact-metric>span:last-child{grid-column:1;font-size:12px}.wf-facts-date{flex-direction:column;gap:4px}.wf-facts-features{grid-template-columns:1fr;gap:30px;margin-top:35px}.wf-facts-features h3{font-size:25px;margin-top:16px}.wf-facts-features p{margin-bottom:16px}.wf-facts .wf-facts-note{font-size:10px}}
