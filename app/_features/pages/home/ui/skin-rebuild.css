@@ -11,9 +11,9 @@
 .sk-root:has(.sk-motion-toggle[aria-pressed=true]) .sk-hero-phone{animation-play-state:paused}
 
 /* SkinMarket mobile palette and display typography. */
-@font-face{font-family:Unbounded;src:url('/fonts/unbounded-bold.ttf') format('truetype');font-weight:700;font-style:normal;font-display:swap}
+
 .sk-root{--sk-green:#00efef;--sk-purple:#9575ff;--sk-muted:#a8aec7}
-.sk-root h1,.sk-root h2,.sk-root h3,.sk-brand>span{font-family:Unbounded,Arial,sans-serif;font-weight:700}
+.sk-root h1,.sk-root h2,.sk-root h3,.sk-brand>span{font-family:var(--font-skin-display),Arial,sans-serif;font-weight:700}
 .sk-root h1{font-size:clamp(36px,3.65vw,58px);letter-spacing:-.055em;line-height:1.19;margin-top:20px}
 .sk-root h1 em{font-size:.86em;text-transform:uppercase;line-height:1.28;margin-top:19px;background:linear-gradient(105deg,#00f0ed 15%,#55baff 60%,#9977ff);background-clip:text;-webkit-background-clip:text;color:transparent}
 .sk-hero-intro{font-size:13px;line-height:1.6;color:#b5bbd3;margin-top:27px!important;max-width:390px}
@@ -41,7 +41,7 @@
 .sk-comparison>div>span{padding-right:90px}.sk-full-bar{border-radius:7px}.sk-tenge-art{color:#9575ff}.sk-lock-art>div{border-color:#00efef55;color:#00efef;background:#00efef09;box-shadow:0 0 35px #00efef12}
 .sk-wallet-circle{background:radial-gradient(circle at 30% 30%,#00e5ed,#6378ff 65%,#9470ff)}
 .sk-wallet-stamp{border-radius:12px}.sk-journey-steps h3{font-size:24px;line-height:1.4}.sk-journey-steps article>button{color:#f0f2ff}.sk-journey-orbit{border-color:#00efef30;background:radial-gradient(ellipse,#00efef13,transparent 70%)}
-.sk-download-title h2{font-size:clamp(30px,3.4vw,49px)}.sk-community{border-color:#9575ff55;border-radius:18px;background:#9575ff0b}.sk-community strong{font-family:Unbounded,Arial,sans-serif;font-size:19px;line-height:1.4}
+.sk-download-title h2{font-size:clamp(30px,3.4vw,49px)}.sk-community{border-color:#9575ff55;border-radius:18px;background:#9575ff0b}.sk-community strong{font-family:var(--font-skin-display),Arial,sans-serif;font-size:19px;line-height:1.4}
 .sk-download-gateway .store-link{background:#00efef;color:#082c3b;border-color:#00efef;border-radius:12px;box-shadow:0 0 22px #00efef18}
 @media(min-width:1550px){.sk-hero-art{height:740px}.sk-hero-phone{top:155px;width:270px}.sk-profit-card{top:435px}}
 @media(min-width:761px) and (max-width:1100px){.sk-hero-grid{gap:18px;min-height:720px}.sk-root h1{font-size:37px}.sk-hero-phone{width:205px;left:35%;top:150px}.sk-hero-art{height:640px}.sk-profit-card{left:-3%;top:365px;width:140px}.sk-balance-card{bottom:60px;right:-5px}.sk-brand>span{font-size:19px}.sk-benefit h3{font-size:16px}}
@@ -63,3 +63,71 @@
 @media(min-width:761px) and (max-width:1100px){.sk-hero-art{height:730px}.sk-matrix-stage{height:210px}.sk-hero-phone{top:315px;left:39%;width:170px}.sk-profit-card{top:340px;width:125px}.sk-balance-card{bottom:45px}}
 @media(max-width:760px){.sk-hero-art{height:720px}.sk-matrix-stage{top:55px;height:220px}.sk-hero-phone{top:310px;left:42%;width:175px}.sk-profit-card{top:345px;width:125px;padding:14px}.sk-balance-card{bottom:40px}.sk-art-note{bottom:9px;font-size:7px}}
 @media(max-width:380px){.sk-hero-phone{left:40%;width:155px}.sk-profit-card{width:115px}.sk-balance-card{padding:12px}.sk-balance-card strong{font-size:25px}}
+
+/* Unified type scale and balanced wallet / download compositions. */
+.sk-root{font-size:16px;-webkit-font-smoothing:antialiased}
+.sk-root h1{font-size:clamp(36px,3.65vw,56px);line-height:1.18;letter-spacing:-.045em;text-wrap:balance}
+.sk-root h1 em{font-size:.88em;letter-spacing:-.035em}
+.sk-root h2{letter-spacing:-.045em;text-wrap:balance}
+.sk-hero-intro{font-size:16px;font-weight:500;max-width:440px}
+.sk-lead{font-size:18px;line-height:1.7;color:#c0c5dc}
+.sk-lead strong{font-weight:700}
+.sk-header nav,.sk-header-cta,.sk-telegram-link{font-size:14px}
+.sk-eyebrow{font-size:11px;letter-spacing:.1em}
+.sk-hero-proof{font-size:13px;flex-wrap:wrap;gap:14px 22px}
+.sk-stores small{font-size:12px}
+.sk-stores>a>span{font-size:16px}
+.sk-art-caption,.sk-art-note,.sk-hero-bottom,.sk-card-top{font-size:10px}
+.sk-benefit h3{font-size:20px}
+.sk-benefit>p{font-size:16px;line-height:1.75;max-width:none;color:#b9bfd6}
+.sk-fineprint{font-size:13px;line-height:1.7}
+.sk-comparison>div>span,.sk-comparison>p{font-size:13px}
+.sk-full-bar,.sk-lock-art>span,.sk-tenge-art small{font-size:10px}
+.sk-journey-steps p{font-size:17px;line-height:1.75;color:#bac1da}
+.sk-journey-steps small{font-size:12px}
+.sk-wallet{grid-template-columns:.9fr 1.1fr;gap:clamp(32px,4vw,64px)}
+.sk-wallet-copy h2{font-size:clamp(28px,2.6vw,40px)}
+.sk-wallet-copy h2 em{display:inline-block;font-size:1.2em;margin-top:8px;line-height:1.2}
+.sk-wallet-services{display:grid;gap:12px;margin-top:30px}
+.sk-wallet-services a{padding:21px 20px;border:1px solid #9575ff45;border-radius:14px;background:linear-gradient(115deg,#9575ff12,#ffffff03);transition:border-color .2s,background .2s}
+.sk-wallet-services a:hover{border-color:#00efef80;background:#00efef09}
+.sk-wallet-services a>svg{flex-shrink:0;width:24px;height:24px}
+.sk-wallet-services strong{font-size:18px;font-weight:600;line-height:1.4}
+.sk-wallet-services small{font-size:14px;line-height:1.6;color:#b9bfd6}
+.sk-faq{grid-template-columns:.85fr 1.15fr;gap:clamp(32px,4vw,60px)}
+.sk-faq h2{font-size:clamp(28px,3vw,43px)}
+.sk-faq-hint{font-size:16px;color:#b9bfd6;line-height:1.6;margin-top:25px!important}
+.sk-faq>div>a{font-size:14px;margin-top:20px}
+.sk-faq>div>.sk-faq-telegram{width:fit-content;gap:12px;padding:17px 19px;background:var(--sk-green);border:1px solid var(--sk-green);border-radius:12px;color:#082c3b;font-size:15px;font-weight:600}
+.sk-faq-telegram:hover{box-shadow:0 0 28px #00efef25}
+.sk-faq details{border-bottom-color:#ffffff35}
+.sk-faq details:first-child{border-top:1px solid #ffffff35}
+.sk-faq summary{font-size:18px;font-weight:500;padding:24px 0;gap:18px}
+.sk-faq summary>span{flex-shrink:0;width:30px;text-align:center}
+.sk-faq details[open] summary{color:var(--sk-green)}
+.sk-faq details p{font-size:16px;line-height:1.8;color:#bec4dc}
+.sk-download>.sk-wrap{grid-template-columns:1.15fr 1fr;gap:48px 40px;align-items:start}
+.sk-download-title h2{font-size:clamp(28px,2.9vw,43px);line-height:1.3}
+.sk-download-title>p:last-child{font-size:18px;color:#bec4dc}
+.sk-download-gateway{align-self:start;padding-top:110px;min-width:0}
+.sk-install-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+.sk-install-card{padding:16px;background:#ffffff04;border:1px solid #ffffff24;border-radius:18px;min-width:0}
+.sk-install-button{display:flex;align-items:center;gap:10px;padding:13px 10px;border-radius:10px;background:var(--sk-green);color:#082c3b!important;font-size:17px;font-weight:700;line-height:1.25}
+.sk-install-button>svg{flex-shrink:0}
+.sk-install-button>svg:last-child{margin-left:auto;width:16px}
+.sk-install-button small{display:block;font-size:11px;font-weight:500;margin-bottom:3px}
+.sk-install-qr{margin:18px 0 0;text-align:center}
+.sk-install-qr img{display:block;width:100%;max-width:208px;height:auto;margin:auto;border-radius:8px}
+.sk-install-qr figcaption{font-size:15px;font-weight:600;margin-top:16px}
+.sk-install-qr figcaption span{display:block;font-size:12px;line-height:1.5;font-weight:400;color:#b9bfd6;margin-top:6px}
+.sk-community{margin-top:0;width:100%;padding:30px 32px}
+.sk-community small{font-size:11px}
+.sk-community strong{font-size:22px}
+.sk-community>span>span{font-size:16px}
+.sk-end>span{font-size:10px}
+@media(min-width:761px) and (max-width:1100px){
+.sk-root h1{font-size:34px}.sk-lead{font-size:16px}.sk-header nav{font-size:12px;gap:16px}.sk-wallet{gap:28px}.sk-wallet-services a{padding:17px 14px;gap:10px}.sk-wallet-services strong{font-size:16px}.sk-wallet-services small{font-size:13px}.sk-benefit h3{font-size:16px}.sk-download>.sk-wrap{grid-template-columns:1fr 1fr;gap:32px}.sk-install-grid{gap:10px}.sk-install-card{padding:10px}.sk-install-button{font-size:14px;gap:7px}.sk-install-button>svg:last-child{display:none}
+}
+@media(max-width:760px){
+.sk-root h1{font-size:clamp(27px,7.3vw,52px);letter-spacing:-.045em}.sk-root h1 em{font-size:.86em}.sk-hero-intro{font-size:14px}.sk-lead{font-size:16px}.sk-eyebrow{font-size:10px}.sk-header-cta{font-size:11px}.sk-stores>a>span{font-size:14px}.sk-stores small{font-size:11px}.sk-hero-proof{font-size:12px}.sk-hero-bottom{font-size:9px}.sk-benefit h3{font-size:20px}.sk-benefit>p{font-size:16px}.sk-fineprint{font-size:12px}.sk-journey-steps p{font-size:15px}.sk-journey-steps small{font-size:11px}.sk-wallet{grid-template-columns:1fr;gap:32px}.sk-wallet-copy h2{font-size:clamp(24px,6.4vw,38px)}.sk-wallet-copy h2 em{font-size:1.15em}.sk-wallet-services a{padding:18px 14px;gap:12px}.sk-wallet-services strong{font-size:16px}.sk-wallet-services small{font-size:13px}.sk-faq{grid-template-columns:1fr;gap:32px}.sk-faq h2{font-size:clamp(27px,7vw,38px)}.sk-faq summary{font-size:16px;padding:22px 0}.sk-faq details p{font-size:15px}.sk-faq>div>.sk-faq-telegram{font-size:14px;padding:16px}.sk-download>.sk-wrap{grid-template-columns:1fr;gap:32px}.sk-download-title h2{font-size:clamp(25px,6.4vw,38px)}.sk-download-title>p:last-child{font-size:16px}.sk-download-gateway{padding-top:0}.sk-install-card{padding:10px}.sk-install-button{font-size:15px;gap:8px;padding:13px 9px}.sk-install-button>svg:last-child{display:none}.sk-install-qr{display:none}.sk-community{padding:24px 18px;gap:12px}.sk-community strong{font-size:14px}.sk-community small{font-size:9px}.sk-community>span>span{font-size:13px}
+}
