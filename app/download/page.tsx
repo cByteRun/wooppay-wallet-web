@@ -1,0 +1,4 @@
+import { SiteNav } from "@/components/site-nav"
+import { DownloadCta } from "@/components/download-cta"
+export const metadata={title:"Скачать Wooppay Wallet",description:"Скачайте Wooppay Wallet для iOS и Android."}
+export default function Download(){return <main className="min-h-screen"><SiteNav/><section className="mx-auto max-w-4xl px-6 py-24 text-center lg:px-10"><p className="text-sm uppercase tracking-[.2em] text-violet-300">Wooppay Wallet</p><h1 className="mt-5 text-5xl font-semibold sm:text-7xl">Начните сейчас.</h1><p className="mx-auto mt-6 max-w-xl text-lg leading-8 text-slate-400">Скачайте приложение из официального магазина и управляйте платежами в удобном формате.</p><div className="mt-9 flex justify-center"><DownloadCta/></div><div id="qr" className="mx-auto mt-16 grid size-48 place-items-center rounded-3xl bg-white p-5 text-center text-sm font-semibold text-slate-950">QR-код<br/>Wooppay Wallet</div></section></main>}
