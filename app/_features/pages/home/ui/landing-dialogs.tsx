@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { useEffect, useRef, useState } from 'react'
 import { X, ArrowUpRight } from 'lucide-react'
 import { serviceContent, faqItems } from '@/entities/wallet/model/content'
@@ -12,14 +13,16 @@ const extra = {
   features: { title: 'Один кошелёк. Больше возможностей.', answer: faqItems[2].answer, steps: ['Покупка и продажа скинов CS2.', 'Оплата повседневных услуг.', 'Пополнения и история операций.'] },
 }
 const content = { ...serviceContent, ...extra }
-export function LandingDialogs() {
- const [section, setSection] = useState<keyof typeof content | null>(null)
+export function LandingDialogs({ telegramQr }: { telegramQr: string }) {
+ const [section, setSection] = useState<keyof typeof content | 'telegram' | null>(null)
  const dialog = useRef<HTMLDialogElement>(null)
  useEffect(() => {
   const click = (event: MouseEvent) => {
    if (window.location.pathname !== '/' || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey) return
    const anchor = (event.target as Element).closest<HTMLAnchorElement>('a[href]')
-   if (!anchor || anchor.target === '_blank' || anchor.hasAttribute('download')) return
+   if (!anchor || anchor.hasAttribute('download')) return
+   if (anchor.href === 'https://t.me/skinmarket_official' && !anchor.hasAttribute('data-telegram-direct')) { event.preventDefault(); setSection('telegram'); return }
+   if (anchor.target === '_blank') return
    const url = new URL(anchor.href)
    if (url.origin !== location.origin) return
    const key = url.pathname.split('/')[1]
@@ -36,6 +39,6 @@ export function LandingDialogs() {
   node?.showModal(); document.body.style.overflow='hidden'
   return () => { node?.close(); document.body.style.overflow=overflow }
  },[section])
- const item=section ? content[section] : null
- return <dialog ref={dialog} className="sk-info-dialog" aria-labelledby="sk-info-title" onClose={()=>setSection(null)} onClick={event=>{if(event.target===event.currentTarget){const r=event.currentTarget.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom) setSection(null)}}}><button autoFocus className="sk-info-close" aria-label="Закрыть" onClick={()=>setSection(null)}><X/></button>{item&&<><p className="sk-info-kicker">SKINMARKET × WOOPPAY / ИНФОРМАЦИЯ</p><h2 id="sk-info-title">{item.title}</h2><p>{item.answer}</p><ol>{item.steps.map((step,i)=><li key={step}><span>0{i+1}</span><p>{step}</p></li>)}</ol><div className="sk-info-links"><a href={OFFICIAL.documents} target="_blank" rel="noreferrer">Официальные документы <ArrowUpRight size={16}/></a><a href={OFFICIAL.commissions} target="_blank" rel="noreferrer">Комиссии <ArrowUpRight size={16}/></a></div><button className="sk-info-cta" onClick={()=>{setSection(null);document.getElementById('download')?.scrollIntoView({behavior:'smooth'})}}>Открыть Wooppay <ArrowUpRight size={18}/></button></>}</dialog>
+ const item=section && section !== 'telegram' ? content[section] : null
+ return <dialog ref={dialog} className="sk-info-dialog" aria-labelledby="sk-info-title" onClose={()=>setSection(null)} onClick={event=>{if(event.target===event.currentTarget){const r=event.currentTarget.getBoundingClientRect();if(event.clientX<r.left||event.clientX>r.right||event.clientY<r.top||event.clientY>r.bottom) setSection(null)}}}><button autoFocus className="sk-info-close" aria-label="Закрыть" onClick={()=>setSection(null)}><X/></button>{section === 'telegram' && <><p className="sk-info-kicker">SKINMARKET COMMUNITY / TELEGRAM</p><h2 id="sk-info-title">Свои люди.<br/>Свои скины.</h2><p>Отсканируй QR-код камерой телефона, чтобы открыть канал SkinMarket в Telegram.</p><figure className="sk-telegram-qr"><Image unoptimized src={telegramQr} width={280} height={280} alt="QR-код Telegram-канала SkinMarket"/><figcaption>@skinmarket_official</figcaption></figure><a className="sk-info-cta" href="https://t.me/skinmarket_official" data-telegram-direct target="_blank" rel="noreferrer">Перейти в Telegram-канал <ArrowUpRight size={18}/></a></>}{item&&<><p className="sk-info-kicker">SKINMARKET × WOOPPAY / ИНФОРМАЦИЯ</p><h2 id="sk-info-title">{item.title}</h2><p>{item.answer}</p><ol>{item.steps.map((step,i)=><li key={step}><span>0{i+1}</span><p>{step}</p></li>)}</ol><div className="sk-info-links"><a href={OFFICIAL.documents} target="_blank" rel="noreferrer">Официальные документы <ArrowUpRight size={16}/></a><a href={OFFICIAL.commissions} target="_blank" rel="noreferrer">Комиссии <ArrowUpRight size={16}/></a></div><button className="sk-info-cta" onClick={()=>{setSection(null);document.getElementById('download')?.scrollIntoView({behavior:'smooth'})}}>Открыть Wooppay <ArrowUpRight size={18}/></button></>}</dialog>
 }

@@ -112,3 +112,13 @@ explicitly illustrative. Store icons and functional SVG icons/QR codes stay vect
 The supplied references do not contain separate Steam authorization or seller
 screens. Those journey steps reuse the real SkinMarket home/catalog screens
 rather than fabricating an app interface.
+
+## Ecosystem cards and distinct journeys — 26 October 2026
+
+Reviewed all 31 images across the root mobile references, Google Play series and `wooppay 3steps`. The references contain onboarding and Steam connection, not a complete phone/SMS registration sequence. The landing therefore labels the initial flow «Начать» and shows actual Steam connection and identification screens.
+
+Replaced the repetitive introduction/payment tabs with five distinct editorial walkthroughs: start (home → Steam/Trade Link → identification), buy (catalog → item → wallet payment), sell (Trade Link → offer explanation → settlement stages), fund (funding methods → amount/source → balance usage), and beyond gaming (international services → gaming services → preferences). Seller listing and successful funding screens are absent; corresponding text explains the action without fabricating those screens. Original phone captures remain intact. The final tab is a tour of services, not a single transaction.
+
+Six dot matrix benefit cards explain the ecosystem: inventory to KZT, seller fee, Steam/payment stages, everyday spending, international funding with a calculator, and gaming/digital services. Primary source checked: https://play.google.com/store/apps/details?id=com.wooppay.wooppayapplication&hl=ru (updated 22 October 2026). No monopoly, guaranteed protection from bank blocks, future projections, or unverified passkey claims were added. Settlement copy retains the waiting period shown in the supplied app.
+
+All homepage community links first open a native modal with a server-generated Telegram QR and a separate direct channel link. Escape, close button, outside click and native dialog focus management are retained. Store download behavior is unchanged.

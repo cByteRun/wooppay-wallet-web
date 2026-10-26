@@ -155,24 +155,35 @@ export function MatrixScene({ background = false }: { background?: boolean }) {
   return <><canvas ref={canvas} className={background ? 'sk-field' : 'sk-matrix'} aria-hidden="true"/>{!background && <button className="sk-motion-toggle" onClick={() => window.dispatchEvent(new CustomEvent('skin-motion-toggle', { detail: !paused }))} aria-pressed={paused} aria-label={paused ? 'Продолжить анимацию' : 'Приостановить анимацию'}>{paused ? <Play size={14}/> : <Pause size={14}/>}</button>}</>
 }
 
-const steps: JourneyStep[] = [
-  { title: 'Подключи Steam', text: 'Открой SkinMarket в Wooppay. Войди через Steam и добавь свою ссылку на обмен.', image: 'market', label: '01 / ТВОЙ ИНВЕНТАРЬ' },
-  { title: 'Подтверди сделку', text: 'Выбери скин или выставь свой. Покупатель оплачивает заказ, продавец передаёт предмет через Steam.', image: 'payment', label: '02 / СДЕЛКА МЕЖДУ ИГРОКАМИ' },
-  { title: 'Получи тенге', text: 'После завершения сделки и периода ожидания деньги поступят в кошелёк Wooppay. Комиссия продавца — 0%.', image: 'trade', label: '03 / ДЕНЬГИ В WOOPPAY' },
-]
 const journeys: Record<string, JourneyStep[]> = {
-  '3 шага': steps,
-  'Знакомство': [
-    { title: 'Торгуй скинами', text: 'SkinMarket внутри Wooppay: покупай и продавай предметы CS2 напрямую между игроками.', image: 'intro', label: '01 / ЗНАКОМСТВО' },
-    { title: 'Подключи свой Steam', text: 'Авторизуйся через Steam и добавь TradeLink для передачи предметов.', image: 'steam', label: '02 / ПОДКЛЮЧЕНИЕ' },
-    steps[0],
+  'Начать': [
+    { title: 'Открой SkinMarket', text: 'В приложении Wooppay открой маркет скинов CS2. Каталог доступен для знакомства с предметами и предложениями.', image: 'intro', label: '01 / ЗНАКОМСТВО' },
+    { title: 'Подключи Steam', text: 'Войди через Steam и добавь Trade Link — свою ссылку на обмен. Она нужна для передачи предметов.', image: 'connect', label: '02 / STEAM + TRADE LINK' },
+    { title: 'Подготовь кошелёк', text: 'Перед сделкой пройди идентификацию, если приложение её запрашивает. Проверь доступные функции и лимиты.', image: 'identify', label: '03 / ГОТОВНОСТЬ К СДЕЛКЕ' },
   ],
-  'Покупка': [steps[0], { title: 'Выбери свой скин', text: 'Открой маркет, выбери предмет и проверь его характеристики и условия предложения.', image: 'item', label: '02 / ВЫБОР ПРЕДМЕТА' }, { title: 'Оплати и прими предмет', text: 'Подтверди оплату в Wooppay. Проверь предложение обмена и прими предмет в Steam.', image: 'payment', label: '03 / ПОКУПКА' }],
-  'Продажа': [steps[0], { title: 'Выставь предмет', text: 'Выбери скин из своего инвентаря, укажи цену и дождись покупателя.', image: 'market', label: '02 / ПРОДАЖА' }, steps[2]],
-  'Оплата': [ { title: 'Проверь заказ', text: 'Сверь название предмета, его характеристики и условия сделки перед оплатой.', image: 'payment', label: '01 / ЗАКАЗ' }, { title: 'Подтверди оплату', text: 'Выбери кошелёк Wooppay и проверь итоговую сумму. Оплата удерживается на время сделки.', image: 'payment', label: '02 / ОПЛАТА' }, { title: 'Следи за статусом', text: 'Передача предмета проходит через Steam. Статус и результат сделки доступны в приложении.', image: 'trade', label: '03 / РЕЗУЛЬТАТ' }],
+  'Купить скин': [
+    { title: 'Найди свой предмет', text: 'Выбирай в каталоге: используй категории и фильтры, сравнивай предложения игроков.', image: 'market', label: '01 / КАТАЛОГ' },
+    { title: 'Проверь детали', text: 'Посмотри цену в тенге, износ и характеристики. Убедись, что указана верная ссылка на обмен.', image: 'item', label: '02 / КАРТОЧКА ПРЕДМЕТА' },
+    { title: 'Оплати и прими обмен', text: 'Подтверди оплату с кошелька Wooppay. Дождись предложения продавца и прими нужный предмет в Steam.', image: 'payment', label: '03 / ОПЛАТА В WOOPPAY' },
+  ],
+  'Продать скин': [
+    { title: 'Подключи инвентарь', text: 'Авторизуйся через Steam и привяжи Trade Link, чтобы работать со своими предметами CS2.', image: 'tradelink', label: '01 / СВОЙ STEAM' },
+    { title: 'Выставь и передай скин', text: 'Выбери предмет для продажи и укажи цену. Когда покупатель оплатит заказ, передай предмет через обмен в Steam.', image: 'intro', label: '02 / ПРЕДЛОЖЕНИЕ И ОБМЕН' },
+    { title: 'Получи тенге в кошелёк', text: 'После завершения сделки и периода ожидания деньги поступят в Wooppay. Комиссия продавца SkinMarket — 0%.', image: 'settlement', label: '03 / СКИН → ТЕНГЕ' },
+  ],
+  'Пополнить': [
+    { title: 'Выбери способ', text: 'Открой пополнение в Wooppay. Доступные источники средств отображаются в приложении.', image: 'fundingIntro', label: '01 / ИСТОЧНИК СРЕДСТВ' },
+    { title: 'Укажи сумму', text: 'Введи сумму и выбери источник. Проверь комиссию и итог до подтверждения операции.', image: 'funding', label: '02 / ПОПОЛНЕНИЕ БАЛАНСА' },
+    { title: 'Используй баланс', text: 'С кошелька можно оплачивать покупки в SkinMarket, связь, интернет и другие доступные услуги.', image: 'payment', label: '03 / ОДИН БАЛАНС' },
+  ],
+  'За пределами игры': [
+    { title: 'Поддерживай близких', text: 'Пополняй зарубежные карты и электронные кошельки. Калькулятор покажет курс и сумму получения до подтверждения.', image: 'international', label: '01 / МЕЖДУНАРОДНЫЕ НАПРАВЛЕНИЯ' },
+    { title: 'Оплачивай игровые сервисы', text: 'Находи игровые пополнения, подписки и другие цифровые сервисы в приложении Wooppay.', image: 'gaming', label: '02 / ИГРЫ И ПОДПИСКИ' },
+    { title: 'Собери свой кошелёк', text: 'Выбирай нужные возможности: повседневные платежи, переводы и покупки. Всё в одном приложении.', image: 'preferences', label: '03 / WOOPPAY НА КАЖДЫЙ ДЕНЬ' },
+  ],
 }
 export function TradeJourney() {
-  const [journey, setJourney] = useState<keyof typeof journeys>('3 шага')
+  const [journey, setJourney] = useState<keyof typeof journeys>('Начать')
   const steps = journeys[journey]
   const [active, setActive] = useState(0)
   const ref = useRef<HTMLDivElement>(null)
@@ -181,5 +192,5 @@ export function TradeJourney() {
     ref.current?.querySelectorAll('[data-trade-step]').forEach(node => observer.observe(node))
     return () => observer.disconnect()
   }, [journey])
-  return <><div className="sk-journey-tabs" role="tablist" aria-label="Сценарий сделки">{Object.keys(journeys).map(name => <button key={name} id={`journey-tab-${name}`} role="tab" aria-selected={journey === name} aria-controls="journey-panel" tabIndex={journey === name ? 0 : -1} onKeyDown={event => { const names = Object.keys(journeys); const index = names.indexOf(name); const next = event.key === 'ArrowRight' ? (index + 1) % names.length : event.key === 'ArrowLeft' ? (index + names.length - 1) % names.length : event.key === 'Home' ? 0 : event.key === 'End' ? names.length - 1 : -1; if (next >= 0) { event.preventDefault(); setJourney(names[next] as keyof typeof journeys); setActive(0); document.getElementById(`journey-tab-${names[next]}`)?.focus() } }} onClick={() => { setJourney(name as keyof typeof journeys); setActive(0) }}>{name}</button>)}</div><div id="journey-panel" role="tabpanel" aria-labelledby={`journey-tab-${journey}`} className="sk-journey" ref={ref}><div className="sk-journey-visual"><div className="sk-journey-orbit"/><div className="sk-journey-phone">{steps.map((step, i) => <div key={`${journey}-${i}`} aria-hidden={i !== active} style={{ display: i === active ? 'block' : 'none' }}><AppScreen className="is-active" screen={step.image}/></div>)}</div><div className="sk-journey-status"><span className="sk-live"/>{steps[active].label}</div></div><div className="sk-journey-steps">{steps.map((step, i) => <article key={step.title} data-trade-step={i} id={`trade-step-${i}`} className={active === i ? 'is-active' : ''}><button onClick={() => { setActive(i); document.getElementById(`trade-step-${i}`)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' }) }} aria-pressed={active === i}><span>0{i + 1}</span><h3>{step.title}</h3><ArrowRight size={22}/></button><p>{step.text}</p><AppScreen className="sk-step-preview" screen={step.image}/>{i === 2 && <small><Check size={14}/> Условия и сроки — до подтверждения сделки</small>}</article>)}</div></div></>
+  return <><div className="sk-journey-tabs" role="tablist" aria-label="Сценарии использования Wooppay">{Object.keys(journeys).map(name => <button key={name} id={`journey-tab-${name}`} role="tab" aria-selected={journey === name} aria-controls="journey-panel" tabIndex={journey === name ? 0 : -1} onKeyDown={event => { const names = Object.keys(journeys); const index = names.indexOf(name); const next = event.key === 'ArrowRight' ? (index + 1) % names.length : event.key === 'ArrowLeft' ? (index + names.length - 1) % names.length : event.key === 'Home' ? 0 : event.key === 'End' ? names.length - 1 : -1; if (next >= 0) { event.preventDefault(); setJourney(names[next] as keyof typeof journeys); setActive(0); document.getElementById(`journey-tab-${names[next]}`)?.focus() } }} onClick={() => { setJourney(name as keyof typeof journeys); setActive(0) }}>{name}</button>)}</div><div id="journey-panel" role="tabpanel" aria-labelledby={`journey-tab-${journey}`} className="sk-journey" ref={ref}><div className="sk-journey-visual"><div className="sk-journey-orbit"/><div className="sk-journey-phone">{steps.map((step, i) => <div key={`${journey}-${i}`} aria-hidden={i !== active} style={{ display: i === active ? 'block' : 'none' }}><AppScreen className="is-active" screen={step.image}/></div>)}</div><div className="sk-journey-status"><span className="sk-live"/>{steps[active].label}</div></div><div className="sk-journey-steps">{steps.map((step, i) => <article key={step.title} data-trade-step={i} id={`trade-step-${i}`} className={active === i ? 'is-active' : ''}><button onClick={() => { setActive(i); document.getElementById(`trade-step-${i}`)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' }) }} aria-pressed={active === i}><span>0{i + 1}</span><h3>{step.title}</h3><ArrowRight size={22}/></button><p>{step.text}</p><AppScreen className="sk-step-preview" screen={step.image}/>{i === 2 && <small><Check size={14}/> Условия и сроки — до подтверждения сделки</small>}</article>)}</div></div></>
 }
