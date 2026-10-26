@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { ArrowUpRight, ArrowRight, Pause, Play } from 'lucide-react'
+import { ArrowUpRight, Pause, Play } from 'lucide-react'
 
 export function PaymentMatrix() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -95,10 +95,10 @@ export function PaymentMatrix() {
           <a className="wf-button" href="#flows">Выбрать свой сценарий <ArrowUpRight size={20}/></a>
         </div>
         <div className="wf-network-visual" aria-label="P2P: от тебя через Wooppay к другим людям">
-          <div className="wf-network-person wf-network-you"><span>01 / ОТПРАВИТЕЛЬ</span><strong>Ты</strong><span>ТВОИ ПЛАНЫ ↗</span></div>
+          <div className="wf-network-signal wf-network-signal-coffee"><span className="wf-network-signal-caption">МАЛЕНЬКИЙ ПОВОД</span><p>За кофе <span>— тебе.</span></p><span className="wf-network-signal-trail" aria-hidden="true"/></div>
           <div className="wf-network-core"><span>PEER TO PEER</span><strong>P<span>2</span>P</strong><span>ЛЮДИ В ЦЕНТРЕ</span></div>
-          <div className="wf-network-person wf-network-friend"><span>02 / ПОЛУЧАТЕЛЬ</span><strong>Твои люди</strong><span>БЛИЖЕ С WOOPPAY ↗</span></div>
-          <span className="wf-network-route">ТЫ <ArrowRight size={16}/> WOOPPAY <ArrowRight size={16}/> ТВОЙ МИР</span>
+          <div className="wf-network-signal wf-network-signal-evening"><span className="wf-network-signal-trail" aria-hidden="true"/><span className="wf-network-signal-caption">ОБЩИЕ ПЛАНЫ</span><p>На вечер <span>— вместе.</span></p></div>
+          <div className="wf-network-connection"><span aria-hidden="true">··· ↗</span><p>Между нами<br/><em>больше, чем переводы.</em></p></div>
         </div>
       </div>
       <div className="wf-network-bottom"><p>Из Казахстана.<br/><strong>С первым шагом в будущее.</strong></p><p>Wooppay — первая зарегистрированная<br/>платёжная организация Казахстана.</p><a href="#skinmarket">P2P-маркет скинов CS2 <ArrowUpRight size={18}/></a></div>
