@@ -1,5 +1,7 @@
 # Wooppay Wallet
 
+Демонстрационный проект, разрабатываемый по заказу для Wooppay; до согласования не является утверждённым официальным ресурсом бренда. Все права на бренд Wooppay, товарные знаки, логотипы и мобильные приложения принадлежат Wooppay и соответствующим правообладателям. См. [статус демо и права](docs/features/localization-trust.md#статус-демо-и-права).
+
 Next.js App Router. [Roadmap](ROADMAP.md), [архитектура](docs/architecture.md), [SEO feature](docs/features/seo-discovery.md). SEO-исследование и ограничения: [docs/seo-research-2026.md](docs/seo-research-2026.md).
 
 ```sh
