@@ -16,7 +16,6 @@ import './wallet-landing.css'
 export const metadata = pageMetadata('/')
 const display = localFont({ src: '../../../../../public/fonts/exo2-variable.ttf', variable: '--wallet-display', weight: '100 900', display: 'swap' })
 const body = localFont({ src: '../../../../../public/fonts/ubuntu-regular.ttf', variable: '--wallet-body', weight: '400', display: 'swap' })
-const mono = localFont({ src: '../../../../../public/fonts/ubuntu-mono.ttf', variable: '--wallet-mono', weight: '400', display: 'swap' })
 const faq = [
   { question: 'Что такое Wooppay Wallet?', answer: 'Wooppay Wallet — приложение электронного кошелька для платежей, пополнений и цифровых сервисов. В нём также доступен P2P-маркет скинов CS2 SkinMarket.' },
   { question: 'Как начать пользоваться?', answer: 'Скачай Wooppay по ссылке в App Store или Google Play, зарегистрируйся и выбери нужный сервис. Для отдельных операций приложение может предложить пройти идентификацию.' },
@@ -28,7 +27,7 @@ function Brand() { return <Link href="/" className="wf-brand" aria-label="Wooppa
 function Eyebrow({ children }: { children: React.ReactNode }) { return <p className="wf-eyebrow">{children}</p> }
 
 export default function Home() {
-  return <main className={`wf-root ${display.variable} ${body.variable} ${mono.variable}`} id="top">
+  return <main className={`wf-root ${display.variable} ${body.variable}`} id="top">
     <StructuredData data={{ '@context': 'https://schema.org', '@type': 'FAQPage', mainEntity: faq.map(item => ({ '@type': 'Question', name: item.question, acceptedAnswer: { '@type': 'Answer', text: item.answer } })) }}/>
     <a href="#content" className="wf-skip">К содержимому</a>
     <header className="wf-header wf-wrap"><Brand/><nav aria-label="Главная навигация"><a href="#possibilities">Возможности</a><a href="#flows">Как пользоваться</a><a href="#trust">Безопасность</a><a href="#faq">Помощь</a></nav><div className="wf-header-actions"><a className="wf-nav-cta" href="#download">Скачать приложение <ArrowUpRight size={16}/></a><ThemeSwitch/></div></header>

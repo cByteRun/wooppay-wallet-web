@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Pause, Play } from 'lucide-react'
+import { ArrowUpRight, ArrowRight, Pause, Play } from 'lucide-react'
 
 export function PaymentMatrix() {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -15,7 +15,7 @@ export function PaymentMatrix() {
     function draw() {
       if (!ctx) return
       ctx.clearRect(0, 0, width, height)
-      const scale = Math.min(width / 1000, 1)
+      const scale = Math.min(width / 760, 1.65)
       const morph = (1 - Math.cos(time * .00045)) / 2
       const dark = document.documentElement.dataset.walletTheme === 'dark'
       for (let i = 0; i < 1200; i++) {
@@ -29,7 +29,7 @@ export function PaymentMatrix() {
         const x = side === 0 ? -110 + t * 220 : side === 1 ? 110 : side === 2 ? 110 - t * 220 : -110
         const y = side === 0 ? -65 : side === 1 ? -65 + t * 130 : side === 2 ? 65 : 65 - t * 130
         const wx = x * (.79 + v * .21), wy = y * (.79 + v * .21)
-        const px = width / 2 + (ringX * (1 - morph) + wx * morph) * scale
+        const px = width * .7 + (ringX * (1 - morph) + wx * morph) * scale
         const py = height / 2 + (ringY * (1 - morph) + wy * morph) * scale
         ctx.fillStyle = i % 3 ? (dark ? '#b49aff' : '#7351f5') : (dark ? '#7abaff' : '#3665ff')
         ctx.globalAlpha = .25 + v * .55
@@ -40,7 +40,7 @@ export function PaymentMatrix() {
         const lane = route % 3 - 1
         for (let i = 0; i < 65; i++) {
           const progress = (i / 65 + time * .00007) % 1
-          const x = width / 2 + direction * (140 * scale + progress * width * .46)
+          const x = width * .7 + direction * (140 * scale + progress * width * .46)
           const y = height / 2 + lane * (30 + progress * 65) + Math.sin(progress * Math.PI * 2 + time * .001) * 9
           ctx.globalAlpha = Math.sin(progress * Math.PI) * .65
           ctx.fillStyle = route % 2 ? '#7351f5' : '#5799ff'
@@ -65,10 +65,27 @@ export function PaymentMatrix() {
     resize.observe(canvas); observer.observe(canvas); frame = requestAnimationFrame(loop)
     return () => { resize.disconnect(); observer.disconnect(); theme.disconnect(); cancelAnimationFrame(frame) }
   }, [paused])
-  return <section className="wf-payment-matrix" aria-label="Один кошелёк объединяет платежи, переводы и игры">
+  return <section className="wf-payment-matrix wf-network" aria-labelledby="wf-network-title">
     <canvas ref={canvasRef} aria-hidden="true"/>
-    <div className="wf-payment-labels" aria-hidden="true"><span>01 / PAY</span><span>02 / TRANSFER</span><span>03 / PLAY</span></div>
-    <span className="wf-payment-caption">ОДИН БАЛАНС → БОЛЬШЕ ВОЗМОЖНОСТЕЙ</span>
-    <button type="button" className="wf-payment-pause" aria-label={paused ? 'Включить анимацию платежей' : 'Остановить анимацию платежей'} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={15}/> : <Pause size={15}/>}</button>
+    <div className="wf-wrap wf-network-content">
+      <div className="wf-network-top"><span className="wf-network-label"><span className="wf-status"/> WOOPPAY / E-WALLET</span><span className="wf-network-label">СОЗДАНО В КАЗАХСТАНЕ ↗</span></div>
+      <div className="wf-network-grid">
+        <div className="wf-network-copy">
+          <p className="wf-network-label">ОТ ЧЕЛОВЕКА К ЧЕЛОВЕКУ</p>
+          <h2 id="wf-network-title">Твой мир.<br/>Твои люди.<br/><span>Твой Wooppay.</span></h2>
+          <p className="wf-network-description">Делиться. Обмениваться. Быть ближе.<br/>Электронный кошелёк, который связывает твои повседневные платежи и игровой мир.</p>
+          <a className="wf-button" href="#flows">Выбрать свой сценарий <ArrowUpRight size={20}/></a>
+        </div>
+        <div className="wf-network-visual" aria-label="P2P: от тебя через Wooppay к другим людям">
+          <span className="wf-network-orbit" aria-hidden="true"/>
+          <div className="wf-network-person wf-network-you"><span>01 / ОТПРАВИТЕЛЬ</span><strong>Ты</strong><span>ТВОИ ПЛАНЫ ↗</span></div>
+          <div className="wf-network-core"><span>PEER TO PEER</span><strong>P<span>2</span>P</strong><span>ЛЮДИ В ЦЕНТРЕ</span></div>
+          <div className="wf-network-person wf-network-friend"><span>02 / ПОЛУЧАТЕЛЬ</span><strong>Твои люди</strong><span>БЛИЖЕ С WOOPPAY ↗</span></div>
+          <span className="wf-network-route">ТЫ <ArrowRight size={16}/> WOOPPAY <ArrowRight size={16}/> ТВОЙ МИР</span>
+        </div>
+      </div>
+      <div className="wf-network-bottom"><p>Из Казахстана.<br/><strong>С первым шагом в будущее.</strong></p><p>Wooppay — первая зарегистрированная<br/>платёжная организация Казахстана.</p><a href="#skinmarket">P2P-маркет скинов CS2 <ArrowUpRight size={18}/></a></div>
+    </div>
+    <button type="button" className="wf-payment-pause" aria-label={paused ? 'Включить фоновую анимацию' : 'Остановить фоновую анимацию'} aria-pressed={paused} onClick={() => setPaused(value => !value)}>{paused ? <Play size={15}/> : <Pause size={15}/>}</button>
   </section>
 }
