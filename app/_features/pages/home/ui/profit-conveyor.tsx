@@ -1,4 +1,5 @@
 import QRCode from 'qrcode'
+import { Check, Link2 } from 'lucide-react'
 import { STORE_LINKS } from '@/shared/config/site'
 import { HeroStore } from './hero-store'
 import './profit-conveyor.css'
@@ -11,16 +12,20 @@ export async function ProfitConveyor() {
   const codes = await Promise.all((['ios', 'android'] as const).map(async platform => ({ platform, href: STORE_LINKS[platform], qr: `data:image/svg+xml,${encodeURIComponent(await QRCode.toString(STORE_LINKS[platform], { type: 'svg', margin: 4, errorCorrectionLevel: 'M' }))}` })))
   return <div className="sk-conveyor">
     <div className="sk-conveyor-caption"><span>SKIN → CASH</span><span><i/> WOOPPAY SYSTEM</span></div>
+    <div className="sk-steam-status" aria-label="Пример подключения аккаунта">
+      <span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" aria-hidden="true"><circle cx="16" cy="8" r="5"/><circle cx="16" cy="8" r="2.5"/><circle cx="6" cy="17" r="3"/><path d="m8 15 5-4M9 18l8-5M3 16l-3-2"/></svg><span><strong>Steam</strong><small>Аккаунт подключён</small></span><Check size={14}/></span>
+      <span><Link2 size={20} aria-hidden="true"/><span><strong>TradeLink</strong><small>Ссылка привязана</small></span><Check size={14}/></span>
+    </div>
     <svg className="sk-conveyor-svg" viewBox="0 0 600 740" role="img" aria-labelledby="sk-conveyor-title sk-conveyor-desc">
       <title id="sk-conveyor-title">Из скина — в реальные тенге</title><desc id="sk-conveyor-desc">Скин через Steam поступает в SkinMarket. Комиссия продавца 0%. После завершения сделки деньги поступают в кошелёк Wooppay. 45 000 тенге — пример суммы.</desc>
       <defs>
         <linearGradient id="sk-phone-fill" x2="1" y2="1"><stop stopColor="#303a50"/><stop offset="1" stopColor="#141b2b"/></linearGradient>
         <linearGradient id="sk-cash-fill"><stop stopColor="#00ff87"/><stop offset="1" stopColor="#00f2fe"/></linearGradient>
-        <pattern id="sk-grid-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r="1.5" fill="#597392"/></pattern>
+        <pattern id="sk-grid-dots" width="22" height="22" patternUnits="userSpaceOnUse"><circle cx="2" cy="2" r=".8" fill="#597392"/></pattern>
         <linearGradient id="sk-screen-fill" x2="0" y2="1"><stop stopColor="#242d42"/><stop offset="1" stopColor="#191f30"/></linearGradient>
       </defs>
-      <path d="M300 144 595 326 300 730 5 548Z" fill="#1a2233" stroke="#34445b" strokeWidth=".7"/>
-      <g transform="matrix(.74,.45,-.74,.55,300,145)" opacity=".5"><rect width="400" height="590" fill="url(#sk-grid-dots)"/></g>
+      <path d="M300 144 595 326 300 730 5 548Z" fill="#1a2233" fillOpacity=".25" stroke="#34445b" strokeOpacity=".4" strokeWidth=".7"/>
+      <g transform="matrix(.74,.45,-.74,.55,300,145)" opacity=".08"><rect width="400" height="590" fill="url(#sk-grid-dots)"/></g>
       <g fill="none" stroke="#445a76"><path d="m300 144 0 586M5 548l590 -222M82 595l436 -312M153 640l294 -400" opacity=".35"/><path d="M300 151V210M189 395H94V439M411 395H506V439M300 586v68h137" strokeWidth="1.5"/><path className="sk-conveyor-pulse" d="M300 152V210M300 586v68h137" stroke="#00f2fe" strokeWidth="2" strokeDasharray="3 10"/></g>
       <g transform="translate(300 100)"><ellipse cy="10" rx="100" ry="46" fill="#1b2537" stroke="#40536e" strokeDasharray="2 6"/><Knife dotted/><text y="83" fill="#91a1b9" fontSize="10" textAnchor="middle" letterSpacing="3">01 / STEAM INVENTORY</text></g>
       <g>
@@ -40,7 +45,7 @@ export async function ProfitConveyor() {
       </g>
       <g><path d="M398 307h70l12 12v65h-82Z" fill="#1c3440" stroke="#00ff87"/><path d="M398 307v77" stroke="#00ff87" strokeWidth="3"/><text x="414" y="342" fill="#00ff87" fontSize="31" fontWeight="700">0%</text><text x="414" y="360" fill="#a0c7c3" fontSize="8">КОМИССИЯ</text><text x="414" y="372" fill="#a0c7c3" fontSize="8">ПРОДАВЦА</text></g>
       <path d="M296 584v21" stroke="#00ff87" strokeWidth="2"/>
-      <g><rect x="169" y="605" width="254" height="73" rx="10" fill="url(#sk-cash-fill)"/><text x="190" y="626" fill="#12504d" fontSize="8" letterSpacing="1.4">02 / НА БАЛАНСЕ WOOPPAY</text><text x="190" y="660" fill="#082d36" fontSize="31" fontWeight="700">+45 000 ₸</text><circle cx="396" cy="645" r="11" fill="#093b3b"/><path d="m391 645 4 4 7 -8" stroke="#00ffb0" fill="none" strokeWidth="2"/></g>
+      <g><rect x="169" y="605" width="254" height="73" rx="10" fill="url(#sk-cash-fill)"/><text x="190" y="626" fill="#12504d" fontSize="10" letterSpacing=".3">ПРИМЕР СДЕЛКИ · WOOPPAY</text><text x="190" y="660" fill="#082d36" fontSize="31" fontWeight="700">+45 000 ₸</text><circle cx="396" cy="645" r="11" fill="#093b3b"/><path d="m391 645 4 4 7 -8" stroke="#00ffb0" fill="none" strokeWidth="2"/></g>
       <g fill="#00f2fe"><circle cx="94" cy="439" r="3"/><circle cx="506" cy="439" r="3"/><circle cx="437" cy="654" r="3"/></g>
     </svg>
     <div className="sk-conveyor-stores">{codes.map(store => <HeroStore key={store.platform} {...store}/>)}</div>
