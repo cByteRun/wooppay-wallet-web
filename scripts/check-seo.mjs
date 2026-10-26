@@ -5,7 +5,7 @@ import jsQR from 'jsqr'
 import { detectPlatform } from '../features/app-download/model/platform.ts'
 
 // Inspect actual build output, not React's hydration payload or source strings.
-const routes = ['', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq']
+const routes = ['', 'download', 'features', 'payments', 'transfers', 'skinmarket', 'tariffs', 'security', 'faq', 'faq/download', 'faq/tariffs', 'faq/support']
 const origin = (process.env.SITE_URL || 'https://wooppay.com').replace(/\/$/, '')
 const index = process.env.SITE_INDEXING_ENABLED === 'true'
 const titles = new Set()
@@ -23,9 +23,18 @@ for (const route of routes) {
   const canonical = html.match(/<link rel="canonical" href="([^"]+)"/)?.[1]
   assert.equal(canonical, `${origin}${route ? `/${route}` : ''}`)
   assert.ok(html.includes(`name="robots" content="${index ? 'index' : 'noindex'}, follow"`), `${route}: indexing policy`)
+  assert.ok(html.includes('property="og:image"'), `${route}: OG image`)
+  let schemaCount = 0
   for (const match of html.matchAll(/<script type="application\/ld\+json">(.*?)<\/script>/g)) {
+    schemaCount++
     const schema = JSON.parse(match[1])
     assert.equal(schema['@context'], 'https://schema.org')
+  }
+  assert.ok(schemaCount > 0, `${route}: server-rendered JSON-LD`)
+  if (route.startsWith('faq/')) {
+    assert.ok(visibleHtml.includes('Проверено'), `${route}: visible review date`)
+    assert.ok(visibleHtml.includes('href="/faq"'), `${route}: parent FAQ link`)
+    assert.ok(html.includes(`${origin}/${route}#webpage`), `${route}: page entity`)
   }
   for (const match of visibleHtml.matchAll(/href="(\/[^"?#]*)"/g)) {
     const href = match[1]

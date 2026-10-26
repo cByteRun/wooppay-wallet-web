@@ -1,6 +1,6 @@
 # Wooppay Wallet
 
-Next.js App Router. SEO-исследование и ограничения: [docs/seo-research-2026.md](docs/seo-research-2026.md).
+Next.js App Router. [Roadmap](ROADMAP.md), [архитектура](docs/architecture.md), [SEO feature](docs/features/seo-discovery.md). SEO-исследование и ограничения: [docs/seo-research-2026.md](docs/seo-research-2026.md).
 
 ```sh
 npm ci

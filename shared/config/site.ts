@@ -1,3 +1,5 @@
+import { faqGuides } from '@/entities/wallet/model/content'
+
 // Set the final owned domain at build time; do not guess a new production host.
 const configuredUrl = new URL(process.env.SITE_URL || "https://wooppay.com")
 if (!['http:', 'https:'].includes(configuredUrl.protocol) || configuredUrl.username || configuredUrl.password || configuredUrl.pathname !== '/' || configuredUrl.search || configuredUrl.hash) {
@@ -21,5 +23,6 @@ export const SITE_PAGES = [
   { path: '/tariffs', title: 'Тарифы и лимиты Wooppay: где проверить условия', description: 'Как проверить комиссию, курс и ограничения операции в Wooppay перед подтверждением платежа или пополнения.' },
   { path: '/security', title: 'Безопасность и поддержка Wooppay Wallet', description: 'Как найти официальное приложение Wooppay и контакты поддержки, проверить платежи и защитить доступ к кошельку.' },
   { path: '/faq', title: 'Вопросы и ответы о Wooppay Wallet', description: 'Что такое Wooppay, где скачать приложение, как проверить условия операций и найти поддержку.' },
+  ...faqGuides.map(item => ({ path: `/faq/${item.slug}` as const, title: item.question, description: item.answer })),
 ] as const
 export type SitePath = typeof SITE_PAGES[number]['path']
