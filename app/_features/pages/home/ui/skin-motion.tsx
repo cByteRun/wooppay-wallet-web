@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
-import { Pause, Play, ArrowRight, Check } from 'lucide-react'
+import { Pause, Play, ArrowRight } from 'lucide-react'
 import { AppScreen } from './skin-art'
 import type { ComponentProps } from 'react'
 
@@ -156,25 +156,21 @@ export function MatrixScene({ background = false }: { background?: boolean }) {
 }
 
 const journeys: Record<string, JourneyStep[]> = {
-  'Начать': [
-    { title: 'Открой SkinMarket', text: 'В приложении Wooppay открой маркет скинов CS2. Каталог доступен для знакомства с предметами и предложениями.', image: 'intro', label: '01 / ЗНАКОМСТВО' },
-    { title: 'Подключи Steam', text: 'Войди через Steam и добавь Trade Link — свою ссылку на обмен. Она нужна для передачи предметов.', image: 'connect', label: '02 / STEAM + TRADE LINK' },
-    { title: 'Подготовь кошелёк', text: 'Перед сделкой пройди идентификацию, если приложение её запрашивает. Проверь доступные функции и лимиты.', image: 'identify', label: '03 / ГОТОВНОСТЬ К СДЕЛКЕ' },
-  ],
-  'Купить скин': [
-    { title: 'Найди свой предмет', text: 'Выбирай в каталоге: используй категории и фильтры, сравнивай предложения игроков.', image: 'market', label: '01 / КАТАЛОГ' },
-    { title: 'Проверь детали', text: 'Посмотри цену в тенге, износ и характеристики. Убедись, что указана верная ссылка на обмен.', image: 'item', label: '02 / КАРТОЧКА ПРЕДМЕТА' },
-    { title: 'Оплати и прими обмен', text: 'Подтверди оплату с кошелька Wooppay. Дождись предложения продавца и прими нужный предмет в Steam.', image: 'payment', label: '03 / ОПЛАТА В WOOPPAY' },
+  'Первый трейд': [
+    { title: 'Нажми «Маркет»', text: 'Открой SkinMarket в Wooppay и перейди в маркет скинов CS2.', image: 'market', label: '01 / МАРКЕТ' },
+    { title: 'Выбери скин', text: 'Открой понравившийся предмет. Проверь цену в тенге, износ и характеристики.', image: 'item', label: '02 / ТВОЙ СКИН' },
+    { title: 'Оплати кошельком', text: 'Проверь сумму и подтверди оплату в Wooppay. Если баланс нужно пополнить, сделай это перед покупкой.', image: 'payment', label: '03 / ОПЛАТА' },
+    { title: 'Отслеживай передачу', text: 'Открой сделки и следи за статусом. Дождись предложения продавца и прими предмет в Steam.', image: 'trade', label: '04 / ПЕРЕДАЧА В STEAM' },
   ],
   'Продать скин': [
     { title: 'Подключи инвентарь', text: 'Авторизуйся через Steam и привяжи Trade Link, чтобы работать со своими предметами CS2.', image: 'tradelink', label: '01 / СВОЙ STEAM' },
-    { title: 'Выставь и передай скин', text: 'Выбери предмет для продажи и укажи цену. Когда покупатель оплатит заказ, передай предмет через обмен в Steam.', image: 'intro', label: '02 / ПРЕДЛОЖЕНИЕ И ОБМЕН' },
+    { title: 'Выставь и передай скин', text: 'Выбери предмет для продажи и укажи цену. Когда покупатель оплатит заказ, передай предмет через обмен в Steam.', image: 'trade', label: '02 / ПРЕДЛОЖЕНИЕ И ОБМЕН' },
     { title: 'Получи тенге в кошелёк', text: 'После завершения сделки и периода ожидания деньги поступят в Wooppay. Комиссия продавца SkinMarket — 0%.', image: 'settlement', label: '03 / СКИН → ТЕНГЕ' },
   ],
   'Пополнить': [
     { title: 'Выбери способ', text: 'Открой пополнение в Wooppay. Доступные источники средств отображаются в приложении.', image: 'fundingIntro', label: '01 / ИСТОЧНИК СРЕДСТВ' },
     { title: 'Укажи сумму', text: 'Введи сумму и выбери источник. Проверь комиссию и итог до подтверждения операции.', image: 'funding', label: '02 / ПОПОЛНЕНИЕ БАЛАНСА' },
-    { title: 'Используй баланс', text: 'С кошелька можно оплачивать покупки в SkinMarket, связь, интернет и другие доступные услуги.', image: 'payment', label: '03 / ОДИН БАЛАНС' },
+    { title: 'Используй баланс', text: 'С кошелька можно оплачивать покупки в SkinMarket, связь, интернет и другие доступные услуги.', image: 'fundingIntro', label: '03 / ОДИН БАЛАНС' },
   ],
   'За пределами игры': [
     { title: 'Поддерживай близких', text: 'Пополняй зарубежные карты и электронные кошельки. Калькулятор покажет курс и сумму получения до подтверждения.', image: 'international', label: '01 / МЕЖДУНАРОДНЫЕ НАПРАВЛЕНИЯ' },
@@ -183,14 +179,32 @@ const journeys: Record<string, JourneyStep[]> = {
   ],
 }
 export function TradeJourney() {
-  const [journey, setJourney] = useState<keyof typeof journeys>('Начать')
-  const steps = journeys[journey]
+  const [journey, setJourney] = useState<keyof typeof journeys>('Первый трейд')
   const [active, setActive] = useState(0)
-  const ref = useRef<HTMLDivElement>(null)
-  useEffect(() => {
-    const observer = new IntersectionObserver(entries => { for (const entry of entries) if (entry.isIntersecting) setActive(Number((entry.target as HTMLElement).dataset.tradeStep)) }, { rootMargin: '-25% 0px -40% 0px' })
-    ref.current?.querySelectorAll('[data-trade-step]').forEach(node => observer.observe(node))
-    return () => observer.disconnect()
-  }, [journey])
-  return <><div className="sk-journey-tabs" role="tablist" aria-label="Сценарии использования Wooppay">{Object.keys(journeys).map(name => <button key={name} id={`journey-tab-${name}`} role="tab" aria-selected={journey === name} aria-controls="journey-panel" tabIndex={journey === name ? 0 : -1} onKeyDown={event => { const names = Object.keys(journeys); const index = names.indexOf(name); const next = event.key === 'ArrowRight' ? (index + 1) % names.length : event.key === 'ArrowLeft' ? (index + names.length - 1) % names.length : event.key === 'Home' ? 0 : event.key === 'End' ? names.length - 1 : -1; if (next >= 0) { event.preventDefault(); setJourney(names[next] as keyof typeof journeys); setActive(0); document.getElementById(`journey-tab-${names[next]}`)?.focus() } }} onClick={() => { setJourney(name as keyof typeof journeys); setActive(0) }}>{name}</button>)}</div><div id="journey-panel" role="tabpanel" aria-labelledby={`journey-tab-${journey}`} className="sk-journey" ref={ref}><div className="sk-journey-visual"><div className="sk-journey-orbit"/><div className="sk-journey-phone">{steps.map((step, i) => <div key={`${journey}-${i}`} aria-hidden={i !== active} style={{ display: i === active ? 'block' : 'none' }}><AppScreen className="is-active" screen={step.image}/></div>)}</div><div className="sk-journey-status"><span className="sk-live"/>{steps[active].label}</div></div><div className="sk-journey-steps">{steps.map((step, i) => <article key={step.title} data-trade-step={i} id={`trade-step-${i}`} className={active === i ? 'is-active' : ''}><button onClick={() => { setActive(i); document.getElementById(`trade-step-${i}`)?.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth', block: 'center' }) }} aria-pressed={active === i}><span>0{i + 1}</span><h3>{step.title}</h3><ArrowRight size={22}/></button><p>{step.text}</p><AppScreen className="sk-step-preview" screen={step.image}/>{i === 2 && <small><Check size={14}/> Условия и сроки — до подтверждения сделки</small>}</article>)}</div></div></>
+  const steps = journeys[journey]
+  const step = steps[active]
+  const selectJourney = (name: string) => { setJourney(name); setActive(0) }
+  return <>
+    <div className="sk-journey-tabs" role="tablist" aria-label="Сценарии использования Wooppay">{Object.keys(journeys).map(name => <button key={name} id={`journey-tab-${name}`} role="tab" aria-selected={journey === name} aria-controls="journey-panel" tabIndex={journey === name ? 0 : -1} onKeyDown={event => {
+      const names = Object.keys(journeys), index = names.indexOf(name)
+      const next = event.key === 'ArrowRight' ? (index + 1) % names.length : event.key === 'ArrowLeft' ? (index + names.length - 1) % names.length : event.key === 'Home' ? 0 : event.key === 'End' ? names.length - 1 : -1
+      if (next >= 0) { event.preventDefault(); selectJourney(names[next]); document.getElementById(`journey-tab-${names[next]}`)?.focus() }
+    }} onClick={() => selectJourney(name)}>{name}</button>)}</div>
+    <div id="journey-panel" role="tabpanel" aria-labelledby={`journey-tab-${journey}`} className="sk-matrix-console">
+      <div className="sk-console-display">
+        <div className="sk-console-head"><span>WOOPPAY / TOUCH TO EXPLORE</span><span>0{active + 1} / 0{steps.length}</span></div>
+        <button className="sk-touch-screen" onClick={() => setActive(value => (value + 1) % steps.length)} aria-label={active === steps.length - 1 ? 'Посмотреть сценарий сначала' : `Следующий шаг: ${steps[active + 1].title}`}>
+          <span className="sk-screen-frame"><span className={`sk-screen-crop sk-crop-${step.image}`} key={`${journey}-${active}`}><AppScreen screen={step.image}/></span></span>
+          <span className="sk-touch-hint">{active === steps.length - 1 ? '↺ НАЖМИ, ЧТОБЫ ПОВТОРИТЬ' : '+ НАЖМИ НА ЭКРАН — СЛЕДУЮЩИЙ ШАГ'}</span>
+        </button>
+        <div className="sk-dot-progress" aria-hidden="true">{steps.map((_, index) => <span key={index} className={index <= active ? 'is-lit' : ''}>{Array.from({ length: 15 }, (_, dot) => <i key={dot}/>)}</span>)}</div>
+      </div>
+      <div className="sk-console-copy">
+        <p className="sk-eyebrow">{journey === 'Первый трейд' ? 'ТВОЙ ТРЕЙД. ЧЕТЫРЕ ДЕЙСТВИЯ.' : journey.toUpperCase()}</p>
+        <div className="sk-console-readout" aria-live="polite" aria-atomic="true"><span className="sk-console-index">0{active + 1}</span><h3>{step.title}</h3><p>{step.text}</p></div>
+        <div className="sk-console-keys" role="group" aria-label="Шаги сценария">{steps.map((item, index) => <button key={item.title} aria-pressed={index === active} onClick={() => setActive(index)}><span>0{index + 1}</span><span>{item.title}</span><ArrowRight size={18}/></button>)}</div>
+        <p className="sk-console-note">Интерфейс Wooppay · нажимай на экран или выбери шаг</p>
+      </div>
+    </div>
+  </>
 }

@@ -176,3 +176,49 @@
 .sk-journey-tabs button{cursor:pointer}.sk-journey-tabs button:focus-visible{outline:2px solid #b8a1ff;outline-offset:4px}
 @media(max-width:1050px){.sk-ecosystem-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.sk-ecosystem-grid{grid-template-columns:1fr}.sk-dot-emblem{height:140px;margin-block:12px 20px}.sk-dot-emblem span{font-size:45px}.sk-ecosystem-card h3{font-size:23px}}
+
+/* Collectible wallet panels: solid surfaces, perforated edges, oversized dot type. */
+.sk-ecosystem-grid{gap:24px;align-items:stretch}
+.sk-ecosystem-card{--card-ink:#122f39;--card-accent:#007b83;background:#bceeed;color:var(--card-ink);border:0;border-radius:3px 28px 3px 3px;padding:26px 28px 32px;box-shadow:8px 8px 0 #060c194d;isolation:isolate;transition:transform .25s,box-shadow .25s}
+.sk-ecosystem-card:nth-child(3n+2){background:#c8baff;--card-ink:#2a204b;--card-accent:#6950af}
+.sk-ecosystem-card:nth-child(3n){background:#e5e7f0;--card-ink:#252c48;--card-accent:#737b9b}
+.sk-ecosystem-card:before{content:'';position:absolute;left:12px;top:18px;bottom:18px;width:3px;background:radial-gradient(circle,var(--card-ink) 1px,transparent 1.6px) center top/3px 9px;opacity:.35}
+.sk-ecosystem-card:after{content:'WOOPPAY / E-WALLET';position:absolute;right:16px;top:80px;writing-mode:vertical-rl;font:8px monospace;letter-spacing:2px;opacity:.5}
+.sk-ecosystem-card:hover{transform:translateY(-6px) rotate(-.5deg);box-shadow:10px 14px 0 #060c194d}
+.sk-ecosystem-card .sk-card-top{color:var(--card-ink);font-size:9px;letter-spacing:.4px;border-bottom:1px solid #122f3933;padding-bottom:18px}
+.sk-ecosystem-card .sk-card-top svg{color:var(--card-ink)}
+.sk-ecosystem-card .sk-dot-emblem{height:150px;justify-items:start;margin:16px 0 24px;background:none;mask-image:none;border-bottom:2px dotted #122f3940}
+.sk-ecosystem-card .sk-dot-emblem:before{width:88px;height:88px;right:12px;top:25px;border:14px dotted var(--card-accent);border-radius:0;transform:rotate(-20deg);box-shadow:none;opacity:.2}
+.sk-ecosystem-card .sk-dot-emblem span{font-size:clamp(40px,4vw,66px);letter-spacing:-5px;background:radial-gradient(circle,var(--card-ink) 1.5px,transparent 1.9px) 0 0/4px 4px;background-clip:text;filter:none}
+.sk-ecosystem-card h3{font-family:var(--font-skin-display),Arial,sans-serif;font-size:21px;line-height:1.45;letter-spacing:-.8px;max-width:23ch}
+.sk-ecosystem-card>p{color:var(--card-ink);opacity:.8;font-size:15px;line-height:1.7}
+
+/* A touch-operated dot matrix console replaces the scrolling phone timeline. */
+.sk-matrix-console{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,6vw,90px);padding:32px;border:1px solid #a194e646;background:#171c2b;box-shadow:inset 0 1px #ffffff09;border-radius:4px 32px 4px 4px}
+.sk-console-display{min-width:0;background:radial-gradient(circle,#8d9abc38 1px,transparent 1.6px) 0 0/12px 12px,#101522;padding:18px;position:relative;border:1px solid #ffffff16}
+.sk-console-head{display:flex;justify-content:space-between;gap:12px;color:#aeb8d6;font:9px/1.6 monospace;letter-spacing:1px}
+.sk-touch-screen{display:flex;flex-direction:column;align-items:center;gap:24px;width:100%;background:none;border:0;padding:24px 0 18px;color:#00efef;touch-action:manipulation}
+.sk-screen-frame{display:block;width:min(270px,88%);padding:12px;border:1px solid #00efef77;border-radius:5px;background:#252c40;box-shadow:0 0 0 5px #101522,0 0 0 6px #9575ff66,12px 16px 0 #080d1680;position:relative}
+.sk-screen-frame:before,.sk-screen-frame:after{content:'';position:absolute;left:0;right:0;height:4px;background:radial-gradient(circle,#00efef 1px,transparent 1.5px) center/8px 4px}
+.sk-screen-frame:before{top:4px}.sk-screen-frame:after{bottom:4px}
+.sk-screen-crop{display:block;position:relative;width:100%;aspect-ratio:1/1.65;overflow:hidden;background:#181b2b;border-radius:2px;animation:sk-screen-reveal .35s ease-out}
+.sk-screen-crop img{display:block;position:absolute;width:111.2%;max-width:none;height:auto;left:-5.6%;top:-11%;pointer-events:none}
+.sk-crop-connect img,.sk-crop-identify img,.sk-crop-tradelink img,.sk-crop-funding img,.sk-crop-international img,.sk-crop-gaming img,.sk-crop-preferences img,.sk-crop-settlement img,.sk-crop-fundingIntro img{width:100%;left:0;top:-12%}
+.sk-touch-hint{font:9px/1.6 monospace;letter-spacing:1px;max-width:100%;text-align:center}
+.sk-dot-progress{display:flex;justify-content:center;gap:18px;padding:0 0 10px}
+.sk-dot-progress>span{display:grid;grid-template-columns:repeat(5,3px);gap:3px}
+.sk-dot-progress i{width:3px;height:3px;border-radius:50%;background:#344059;transition:background .2s,box-shadow .2s}
+.sk-dot-progress .is-lit i{background:#00efef;box-shadow:0 0 6px #00efef65}
+.sk-console-copy{align-self:center;min-width:0;padding-block:12px}
+.sk-console-readout{padding-block:24px;min-height:230px}
+.sk-console-index{font:54px/1 monospace;font-weight:800;color:transparent;background:radial-gradient(circle,#00efef 1.3px,transparent 1.8px) 0 0/4px 4px;background-clip:text}
+.sk-console-readout h3{font-size:clamp(24px,2.5vw,36px);line-height:1.3;letter-spacing:-1px;margin:16px 0 12px}
+.sk-console-readout p{font-size:16px;line-height:1.75;color:#b9c4de;max-width:42ch}
+.sk-console-keys{display:grid;border-top:1px solid #ffffff20}
+.sk-console-keys button{display:flex;align-items:center;gap:16px;text-align:left;padding:16px 10px;border:0;border-bottom:1px solid #ffffff20;background:transparent;color:#aeb8d1;font-size:14px;transition:background .2s,color .2s}
+.sk-console-keys button>span:first-child{font:11px monospace;color:#8e7bd0}.sk-console-keys svg{margin-left:auto;flex-shrink:0}
+.sk-console-keys button[aria-pressed=true]{background:#00efef0c;color:#00efef}.sk-console-keys button:hover{background:#ffffff08}
+.sk-console-note{font:10px/1.8 monospace;color:#9ca8c5;margin-top:20px!important}
+@keyframes sk-screen-reveal{from{opacity:.25;filter:brightness(1.6);transform:translateY(4px)}to{opacity:1;filter:brightness(1);transform:translateY(0)}}
+@media(max-width:760px){.sk-matrix-console{grid-template-columns:1fr;padding:16px;gap:28px}.sk-console-display{padding:14px}.sk-console-head{font-size:8px;letter-spacing:.3px}.sk-screen-frame{width:230px}.sk-console-copy{padding:0 4px}.sk-console-readout{min-height:0;padding-block:20px 24px}.sk-console-readout h3{font-size:28px}.sk-console-readout p{font-size:15px}.sk-touch-hint{font-size:8px}.sk-ecosystem-card{padding:24px 28px 28px}.sk-ecosystem-card .sk-dot-emblem{height:125px}.sk-ecosystem-card .sk-dot-emblem span{font-size:56px}}
+@media(prefers-reduced-motion:reduce){.sk-screen-crop{animation:none}.sk-ecosystem-card,.sk-dot-progress i{transition:none}.sk-ecosystem-card:hover{transform:none}}
