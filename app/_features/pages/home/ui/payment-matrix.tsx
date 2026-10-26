@@ -13,39 +13,57 @@ export function PaymentMatrix() {
     let width = 1, height = 1, frame = 0, time = 0, last = 0, visible = false
     const reduced = matchMedia('(prefers-reduced-motion: reduce)')
     function draw() {
-      if (!ctx) return
+      if (!ctx || !canvas) return
       ctx.clearRect(0, 0, width, height)
-      const scale = Math.min(width / 760, 1.65)
-      const morph = (1 - Math.cos(time * .00045)) / 2
+      const visual = canvas.parentElement?.querySelector('.wf-network-visual')
+      const bounds = visual?.getBoundingClientRect()
+      const section = canvas.getBoundingClientRect()
+      const cx = bounds ? bounds.left - section.left + bounds.width / 2 : width * .72
+      const cy = bounds ? bounds.top - section.top + bounds.height / 2 : height / 2
+      const scale = Math.min((bounds?.width ?? width * .45) / 480, 1.5)
       const dark = document.documentElement.dataset.walletTheme === 'dark'
-      for (let i = 0; i < 1200; i++) {
-        const u = (i % 60) / 59, v = Math.floor(i / 60) / 19
-        const angle = u * Math.PI * 2 + time * .0001
-        const radius = 82 + v * 37
-        const ringX = Math.cos(angle) * radius
-        const ringY = Math.sin(angle) * radius * .64
-        // A torus unfolds into the rounded outline and clasp of a wallet.
-        const edge = u * 4, side = Math.floor(edge), t = edge % 1
-        const x = side === 0 ? -110 + t * 220 : side === 1 ? 110 : side === 2 ? 110 - t * 220 : -110
-        const y = side === 0 ? -65 : side === 1 ? -65 + t * 130 : side === 2 ? 65 : 65 - t * 130
-        const wx = x * (.79 + v * .21), wy = y * (.79 + v * .21)
-        const px = width * .7 + (ringX * (1 - morph) + wx * morph) * scale
-        const py = height / 2 + (ringY * (1 - morph) + wy * morph) * scale
-        ctx.fillStyle = i % 3 ? (dark ? '#b49aff' : '#7351f5') : (dark ? '#7abaff' : '#3665ff')
-        ctx.globalAlpha = .25 + v * .55
-        ctx.beginPath(); ctx.arc(px, py, 1.15 * Math.max(scale, .65), 0, Math.PI * 2); ctx.fill()
-      }
-      for (let route = 0; route < 6; route++) {
-        const direction = route < 3 ? -1 : 1
-        const lane = route % 3 - 1
-        for (let i = 0; i < 65; i++) {
-          const progress = (i / 65 + time * .00007) % 1
-          const x = width * .7 + direction * (140 * scale + progress * width * .46)
-          const y = height / 2 + lane * (30 + progress * 65) + Math.sin(progress * Math.PI * 2 + time * .001) * 9
-          ctx.globalAlpha = Math.sin(progress * Math.PI) * .65
-          ctx.fillStyle = route % 2 ? '#7351f5' : '#5799ff'
-          ctx.beginPath(); ctx.arc(x, y, i % 9 === 0 ? 2.5 : 1.2, 0, Math.PI * 2); ctx.fill()
+      const points: { x: number; y: number; z: number; radius: number; alpha: number; color: string }[] = []
+      // Two open, interwoven surfaces: individual worlds sharing one space.
+      // The slow deformation preserves the composition without a central axle.
+      for (let world = 0; world < 2; world++) {
+        for (let row = 0; row < 24; row++) {
+          const v = row / 23
+          for (let column = 0; column < 100; column++) {
+            const u = column / 100 * Math.PI * 2
+            const phase = world * Math.PI
+            const angle = u + phase + time * .000035
+            const breath = Math.sin(u * 3 + time * .00022 + phase) * 9
+            const radius = 151 + Math.sin(v * Math.PI) * 30 + breath
+            const tube = (v - .5) * 98
+            const x = Math.cos(angle) * (radius + tube * Math.cos(u * 2))
+            const y = Math.sin(angle) * (radius * .76 + tube * .45)
+            const z = Math.sin(u * 2 + phase + time * .00008) * 62 + tube * Math.sin(u * 2)
+            // Tilt each world in a different plane, opening a quiet space for P2P.
+            const tilt = world === 0 ? -.48 : .52
+            const offset = world === 0 ? -47 : 47
+            const rx = x * Math.cos(tilt) - y * Math.sin(tilt) + offset
+            const ry = x * Math.sin(tilt) + y * Math.cos(tilt) + (world === 0 ? -24 : 24)
+            const perspective = 650 / (650 - z)
+            const depth = (z + 110) / 220
+            const edge = Math.sin(v * Math.PI)
+            points.push({
+              x: cx + rx * scale * perspective,
+              y: cy + ry * scale * perspective,
+              z,
+              radius: (.65 + depth * .95) * Math.max(scale, .7),
+              alpha: (.12 + depth * .52) * (.35 + edge * .65),
+              color: world === 0 ? (dark ? '#b49aff' : '#7351f5') : (dark ? '#85c5ed' : '#408cba'),
+            })
+          }
         }
+      }
+      points.sort((a, b) => a.z - b.z)
+      for (const point of points) {
+        ctx.globalAlpha = point.alpha
+        ctx.fillStyle = point.color
+        ctx.beginPath()
+        ctx.arc(point.x, point.y, point.radius, 0, Math.PI * 2)
+        ctx.fill()
       }
       ctx.globalAlpha = 1
     }
@@ -77,7 +95,6 @@ export function PaymentMatrix() {
           <a className="wf-button" href="#flows">Выбрать свой сценарий <ArrowUpRight size={20}/></a>
         </div>
         <div className="wf-network-visual" aria-label="P2P: от тебя через Wooppay к другим людям">
-          <span className="wf-network-orbit" aria-hidden="true"/>
           <div className="wf-network-person wf-network-you"><span>01 / ОТПРАВИТЕЛЬ</span><strong>Ты</strong><span>ТВОИ ПЛАНЫ ↗</span></div>
           <div className="wf-network-core"><span>PEER TO PEER</span><strong>P<span>2</span>P</strong><span>ЛЮДИ В ЦЕНТРЕ</span></div>
           <div className="wf-network-person wf-network-friend"><span>02 / ПОЛУЧАТЕЛЬ</span><strong>Твои люди</strong><span>БЛИЖЕ С WOOPPAY ↗</span></div>
